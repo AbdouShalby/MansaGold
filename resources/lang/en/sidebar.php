@@ -3,6 +3,5 @@
 return [
     'dashboard' => [
         'title' => 'Dashboard',
-
     ],
 ];

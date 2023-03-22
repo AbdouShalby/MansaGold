@@ -1,25 +1,46 @@
-@php($pageTitle = 'groups')
+@php($pageTitle = 'users')
 @extends('layouts.app')
 @section('content')
     <script>
-        function ShowThis(name, current, max, status, avatar, created, updated) {
+        function ShowThis(name, email, phone, country, status, avatar, role, created, updated) {
             $("#name").text(base64_decode(name));
-            $("#current").text(current);
-            $("#max").text(max);
-            if(status == 0) {
-                $("#status").html('<span class="badge badge-primary">{{ __('dashboard.recent-groups.status.available') }}</span>');
-            } else if(status == 1) {
-                $("#status").html('<span class="badge badge-success">{{ __('dashboard.recent-groups.status.completed') }}</span>');
-            } else if(status == 2) {
-                $("#status").html('<span class="badge badge-warning">{{ __('dashboard.recent-groups.status.manufacturing') }}</span>');
-            } else if(status == 3) {
-                $("#status").html('<span class="badge badge-danger">{{ __('dashboard.recent-groups.status.cancelled') }}</span>');
+
+            if(email !== '') {
+                $("#email").text(email);
+            } else {
+                $("#email").text('{{ __('users.no.email') }}');
             }
+
+            if(phone !== '') {
+                $("#phone").text(phone);
+            } else {
+                $("#phone").text('{{ __('users.no.phone') }}');
+            }
+
+            if(country !== '') {
+                $("#country").text(country);
+            } else {
+                $("#country").text('{{ __('users.no.country') }}');
+            }
+
+            if(status == 0) {
+                $("#status").html('<span class="badge badge-danger">{{ __('users.no-groups-to-see') }}</span>');
+            } else {
+                $("#status").html('<span class="badge badge-success">{{ __('users.see-all-groups') }}</span>');
+            }
+
             if(avatar !== '') {
                 $("#avatar").attr("src", "{{ asset('') }}" + base64_decode(avatar));
             } else {
                 $("#avatar").attr("src", "{{ asset('img/no-img.png') }}");
             }
+
+            if(role == 0) {
+                $("#role").html('<span class="badge badge-info">{{ __('users.normal') }}</span>');
+            } else {
+                $("#role").html('<span class="badge badge-dark">{{ __('users.admin') }}</span>');
+            }
+
             $("#created").text(created);
             $("#updated").text(updated);
         }
@@ -33,32 +54,32 @@
     </script>
 
     <div class="content">
-        @if(isset($groups) && count($groups) > 0)
+        @if(isset($users) && count($users) > 0)
         <div class="row">
-            @foreach($groups as $group)
+            @foreach($users as $user)
             <div class="col-lg-6 col-xl-4 col-xxl-3">
                 <div class="card card-default mt-6 mb-4">
                     <div class="card-body text-center p-4">
                         <a href="javascript:;"
-                            onclick="ShowThis('{{ base64_encode($group->group_name) }}','{{ $group->current_subscription }}','{{ $group->group_max_subscription }}','{{ $group->group_status }}','{{ base64_encode($group->group_avatar) }}','{{ $group->created_at }}','{{ $group->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
+                            onclick="ShowThis('{{ base64_encode($user->name) }}','{{ $user->email }}','{{ $user->phone }}','{{ $user->country }}','{{ $user->status }}','{{ base64_encode($user->avatar) }}','{{ $user->role }}','{{ $user->created_at }}','{{ $user->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
 
                             <div class="image mb-3 mt-n9">
-                                @if($group->group_avatar != null)
-                                <img src="{{ $group->group_avatar }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
+                                @if($user->avatar != null)
+                                <img src="{{ $user->avatar }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
                                 @else
                                 <img src="{{ asset('img/no-img.png') }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
                                 @endif
                             </div>
 
-                            <h5 class="card-title text-dark">{{ $group->group_name }}</h5>
+                            <h5 class="card-title text-dark">{{ $user->name }}</h5>
                         </a>
 
                         <div class="row justify-content-center">
                             <div class="col-4 px-1">
-                                <a href="{{ route('edit.group', $group->id) }}" class="mb-1 btn btn-pill btn-outline-success"><i class="mdi mdi-square-edit-outline"></i></a>
+                                <a href="{{ route('edit.user', $user->id) }}" class="mb-1 btn btn-pill btn-outline-success"><i class="mdi mdi-square-edit-outline"></i></a>
                             </div>
                             <div class="col-4 px-1">
-                                <a href="{{ route('delete.group', $group->id) }}" class="mb-1 btn btn-pill btn-outline-danger"><i class="mdi mdi-delete"></i></a>
+                                <a href="{{ route('delete.user', $user->id) }}" class="mb-1 btn btn-pill btn-outline-danger"><i class="mdi mdi-delete"></i></a>
                             </div>
                         </div>
                     </div>
@@ -102,18 +123,17 @@
 
                                     <div class="card-body">
                                         <h4 class="py-2 text-dark" id="name"></h4>
+                                        <p class="py-2 text-black-50" id="email"></p>
                                     </div>
                                 </div>
 
                                 <div class="d-flex justify-content-between ">
-                                    <div class="text-center pb-4">
-                                        <h6 class="text-dark pb-2" id="current"></h6>
-                                        <p>{{ __('groups.current') }}</p>
+                                    <div class="text-center pb-4" id="phone">
+                                        <h6 class="text-dark pb-2"></h6>
                                     </div>
 
-                                    <div class="text-center pb-4">
-                                        <h6 class="text-dark pb-2" id="max"></h6>
-                                        <p>{{ __('groups.max') }}</p>
+                                    <div class="text-center pb-4" id="country">
+                                        <h6 class="text-dark pb-2"></h6>
                                     </div>
                                 </div>
                             </div>
@@ -121,6 +141,8 @@
 
                         <div class="col-md-6">
                             <div class="contact-info px-4">
+                                <div class="mb-1" id="role">
+                                </div>
                                 <div class="mb-1" id="status">
                                 </div>
                                 <p class="text-dark font-weight-medium pt-4 mb-2" >{{ __('groups.created') }}</p>

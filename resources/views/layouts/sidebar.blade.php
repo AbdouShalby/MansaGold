@@ -45,6 +45,27 @@
                         </div>
                     </ul>
                 </li>
+                <li class="has-sub {{ isset($pageTitle) && $pageTitle == 'users' ? 'active' : '' }}">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#users"
+                       aria-expanded="false" aria-controls="users">
+                        <i class="mdi mdi-account-group"></i>
+                        <span class="nav-text">{{ __('users.users.title') }}</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="users" data-parent="#sidebar-menu">
+                        <div class="sub-menu">
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('all.users') }}">
+                                    <span class="nav-text">{{ __('users.users.all') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('create.user') }}">
+                                    <span class="nav-text">{{ __('users.users.create') }}</span>
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

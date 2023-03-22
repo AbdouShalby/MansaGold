@@ -44,7 +44,17 @@
         NProgress.configure({ showSpinner: false });
         NProgress.start();
     </script>
-{{--    <div id="toaster"></div>--}}
+
+    @if (count($errors) > 0)
+        @foreach ($errors->all() as $error)
+            <script>callToaster('toast-top-right', "{{ $error }}", null);</script>
+        @endforeach
+    @endif
+
+    @if ($message = Session::get('success'))
+        <script>callToaster('toast-top-right', null, "{{ $message }}");</script>
+    @endif
+
     <div class="wrapper">
         @if (!isset($noNav))
             @include('layouts.sidebar')
@@ -90,5 +100,6 @@
     </script>
     <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('js/sleek.bundle.js') }}"></script>
+    <script src="{{ asset('js/mansa.js') }}"></script>
 </body>
 </html>

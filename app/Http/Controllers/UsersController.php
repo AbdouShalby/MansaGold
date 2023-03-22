@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class GroupsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $groups = Group::all()->sortDesc();
-        return view('group/all', [
-            'groups' => $groups
+        $users = User::all()->sortDesc();
+        return view('user/all', [
+            'users' => $users
         ]);
     }
 
@@ -28,7 +27,7 @@ class GroupsController extends Controller
      */
     public function create()
     {
-        return view('group/create');
+        return view('user/create');
     }
 
     /**
@@ -37,10 +36,17 @@ class GroupsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'group_name' => 'required|string|max:100|unique:groups,group_name',
-            'group_max' => 'required',
-            'group_avatar' => 'required|file'
+            'name' => 'required|string|max:100',
+            'email' => 'required|email',
+            'password' => 'required|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/|confirmed',
+            'phone' => 'required|numeric|min:10',
+            'country' => 'required|string|max:40',
+            'status' => 'required|boolean',
+            'role' => 'required|numeric|max:1',
+            'avatar' => 'sometimes|mimes:jpeg,jpg,png,gif|max:100000'
         ]);
+
+        //------------------------ i'm typed all validation need to test and countinue ------------------------//
 
         if ($validator->fails()) {
             return back()

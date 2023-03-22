@@ -219,7 +219,7 @@ $(document).ready(function() {
   });
 
   /*======== 9. TOASTER ========*/
-  function callToaster(positionClass) {
+  function callToaster(positionClass, errorMessage, successMessage) {
     if (document.getElementById("toaster")) {
       toastr.options = {
         closeButton: true,
@@ -238,7 +238,12 @@ $(document).ready(function() {
         showMethod: "fadeIn",
         hideMethod: "fadeOut"
       };
-      toastr.success("Welcome to sleek", "Howdy!");
+      if (errorMessage) {
+        toastr.error(errorMessage);
+      }
+      if (successMessage) {
+        toastr.success(successMessage);
+      }
     }
   }
 

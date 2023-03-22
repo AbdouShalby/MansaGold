@@ -1,74 +1,32 @@
 @php($pageTitle = 'groups')
 @extends('layouts.app')
 @section('content')
-    <div class="content" data-select2-id="9">
-        <div class="row" data-select2-id="8">
+    <div class="content">
+        <div class="row">
             <div class="col-lg-12">
                 <div class="card card-default">
                     <div class="card-header card-header-border-bottom">
-                        <h2>Masked Input</h2>
+                        <h2>{{ __('groups.groups.create') }}</h2>
                     </div>
                     <div class="card-body">
-                        <label class="text-dark font-weight-medium" for="">Date input</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="mdi mdi-calendar-range"></i>
-                                </span>
+                        <form action="{{ route('store.group') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="{{ __('groups.name') }}">{{ __('groups.name') }}</label>
+                                <input type="text" name="group_name" class="form-control" id="{{ __('groups.name') }}" placeholder="{{ __('groups.name') }}" required>
                             </div>
-                            <input type="text" class="form-control" data-mask="00/00/0000" placeholder="" aria-label="" autocomplete="off" maxlength="10">
-                        </div>
-                        <p style="font-size: 90%">ex. 99/99/9999</p>
-                        <label class="text-dark mt-4 font-weight-medium" for="">Phone input</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="mdi mdi-phone"></i>
-                                </span>
+                            <div class="form-group">
+                                <label for="{{ __('groups.max') }}">{{ __('groups.max') }}</label>
+                                <input type="text" name="group_max" class="form-control" id="{{ __('groups.max') }}" placeholder="{{ __('groups.max') }}" required>
                             </div>
-                            <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="" aria-label="" autocomplete="off" maxlength="14">
-                        </div>
-                        <p style="font-size: 90%">ex. (999) 999-9999</p>
-                        <label class="text-dark mt-4 font-weight-medium" for="">Taxpayer Identification Numbers</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="mdi mdi-currency-usd"></i>
-                                </span>
+                            <div class="form-group">
+                                <label for="{{ __('groups.avatar') }}">{{ __('groups.avatar') }}</label>
+                                <input type="file" name="group_avatar" class="form-control-file" id="{{ __('groups.avatar') }}" required>
                             </div>
-                            <input type="text" class="form-control" data-mask="99-9999999" placeholder="" aria-label="" autocomplete="off" maxlength="10">
-                        </div>
-                        <p style="font-size: 90%">ex. 99-9999999</p>
-                        <label class="text-dark mt-4 font-weight-medium" for="">Social Security Number</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="mdi mdi-security-account-outline"></i>
-                                </span>
+                            <div class="form-footer pt-4 pt-5 mt-4 border-top">
+                                <button type="submit" class="btn btn-primary btn-default">{{ __('groups.buttons.create') }}</button>
                             </div>
-                            <input type="text" class="form-control" data-mask="999-99-9999" placeholder="" aria-label="" autocomplete="off" maxlength="11">
-                        </div>
-                        <p style="font-size: 90%">ex. 999-99-9999</p>
-                        <label class="text-dark mt-4 font-weight-medium" for="">Eye Script</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="mdi mdi-eye"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control" data-mask="~9.99 ~9.99 999" placeholder="" aria-label="" autocomplete="off" maxlength="15">
-                        </div>
-                        <p style="font-size: 90%">ex. ~9.99 ~9.99 999</p>
-                        <label class="text-dark mt-4 font-weight-medium" for="">Credit Card Number</label>
-                        <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="mdi mdi-credit-card"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control" data-mask="9999 9999 9999 9999" placeholder="" aria-label="" autocomplete="off" maxlength="19">
-                        </div>
-                        <p style="font-size: 90%">ex. 9999 9999 9999 9999</p>
+                        </form>
                     </div>
                 </div>
             </div>

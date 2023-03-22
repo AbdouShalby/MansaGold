@@ -16,7 +16,7 @@
             <div class="col-md-6 col-lg-6 col-xl-4">
                 <div class="card widget-block p-4 rounded bg-danger border">
                     <div class="card-block">
-                        <i class="mdi mdi-account-group mr-4 text-white"></i>
+                        <i class="mdi mdi-folder-multiple-outline mr-4 text-white"></i>
                         <h4 class="text-white my-2">{{ $totalGroups }}</h4>
                         <p>{{ __('dashboard.total-groups') }}</p>
                     </div>
