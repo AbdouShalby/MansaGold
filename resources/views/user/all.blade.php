@@ -2,7 +2,7 @@
 @extends('layouts.app')
 @section('content')
     <script>
-        function ShowThis(name, email, phone, country, status, avatar, role, created, updated) {
+        function ShowThis(name, email, phone, country, status, user_avatar, role, created, updated) {
             $("#name").text(base64_decode(name));
 
             if(email !== '') {
@@ -29,8 +29,8 @@
                 $("#status").html('<span class="badge badge-success">{{ __('users.see-all-groups') }}</span>');
             }
 
-            if(avatar !== '') {
-                $("#avatar").attr("src", "{{ asset('') }}" + base64_decode(avatar));
+            if(user_avatar !== '') {
+                $("#avatar").attr("src", "{{ asset('') }}" + base64_decode(user_avatar));
             } else {
                 $("#avatar").attr("src", "{{ asset('img/no-img.png') }}");
             }
@@ -61,13 +61,13 @@
                 <div class="card card-default mt-6 mb-4">
                     <div class="card-body text-center p-4">
                         <a href="javascript:;"
-                            onclick="ShowThis('{{ base64_encode($user->name) }}','{{ $user->email }}','{{ $user->phone }}','{{ $user->country }}','{{ $user->status }}','{{ base64_encode($user->avatar) }}','{{ $user->role }}','{{ $user->created_at }}','{{ $user->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
+                            onclick="ShowThis('{{ base64_encode($user->name) }}','{{ $user->email }}','{{ $user->phone }}','{{ $user->country }}','{{ $user->status }}','{{ base64_encode($user->user_avatar) }}','{{ $user->role }}','{{ $user->created_at }}','{{ $user->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
 
                             <div class="image mb-3 mt-n9">
-                                @if($user->avatar != null)
-                                <img src="{{ $user->avatar }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
+                                @if($user->user_avatar != null)
+                                    <img src="{{ $user->user_avatar }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
                                 @else
-                                <img src="{{ asset('img/no-img.png') }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
+                                    <img src="{{ asset('img/no-img.png') }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
                                 @endif
                             </div>
 
@@ -78,9 +78,11 @@
                             <div class="col-4 px-1">
                                 <a href="{{ route('edit.user', $user->id) }}" class="mb-1 btn btn-pill btn-outline-success"><i class="mdi mdi-square-edit-outline"></i></a>
                             </div>
-                            <div class="col-4 px-1">
-                                <a href="{{ route('delete.user', $user->id) }}" class="mb-1 btn btn-pill btn-outline-danger"><i class="mdi mdi-delete"></i></a>
-                            </div>
+                            @if(Auth::user()->id != $user->id)
+                                <div class="col-4 px-1">
+                                    <a href="{{ route('delete.user', $user->id) }}" class="mb-1 btn btn-pill btn-outline-danger"><i class="mdi mdi-delete"></i></a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

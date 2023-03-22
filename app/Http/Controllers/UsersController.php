@@ -37,16 +37,14 @@ class UsersController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:100',
-            'email' => 'required|email',
-            'password' => 'required|min:6|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/|confirmed',
-            'phone' => 'required|numeric|min:10',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+            'phone' => 'required|min:10|unique:users,phone',
             'country' => 'required|string|max:40',
             'status' => 'required|boolean',
             'role' => 'required|numeric|max:1',
-            'avatar' => 'sometimes|mimes:jpeg,jpg,png,gif|max:100000'
+            'user_avatar' => 'sometimes|mimes:jpeg,jpg,png,gif|max:100000'
         ]);
-
-        //------------------------ i'm typed all validation need to test and countinue ------------------------//
 
         if ($validator->fails()) {
             return back()
@@ -54,18 +52,21 @@ class UsersController extends Controller
                 ->withInput();
         }
 
-        $group = new Group();
-        $group->group_name = $request->group_name;
-        $group->current_subscription = 0;
-        $group->group_max_subscription = $request->group_max;
-        $group->group_status = 0;
-        $path = $request->file('group_avatar')->store('/avatars/groups/' . $group->group_name, ['disk' => 'my_files']);
-        $group->group_avatar = $path;
-        $group->created_at = Carbon::now();
-        $group->updated_at = Carbon::now();
-        $group->save();
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = md5($request->password);
+        $user->phone = $request->phone;
+        $user->country = $request->country;
+        $user->status = $request->status;
+        $user->role = $request->role;
+        $path = $request->file('user_avatar')->store('/avatars/users/' . $user->name, ['disk' => 'my_files']);
+        $user->user_avatar = $path;
+        $user->created_at = Carbon::now();
+        $user->updated_at = Carbon::now();
+        $user->save();
 
-        return back()->with('success', __('groups.added-success'));
+        return back()->with('success', __('users.added-success'));
     }
 
     /**
@@ -81,9 +82,9 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $group = Group::where('id', $id)->get()->first();
-        return view('group/edit', [
-            'group' => $group
+        $user = User::where('id', $id)->get()->first();
+        return view('user/edit', [
+            'user' => $user
         ]);
     }
 
@@ -92,28 +93,41 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $group = Group::where('id', $id)->get()->first();
+        $user = User::where('id', $id)->get()->first();
 
-        if (!empty($group)) {
+        if (!empty($user)) {
             $validator = Validator::make($request->all(), [
-                'group_name' => 'required|string|max:100|unique:groups,group_name',
-                'group_max' => 'required',
-                'group_status' => 'required',
-                'group_avatar' => 'file'
+                'name' => 'required|string|max:100',
+                'email' => 'required|email|unique:users,email',
+                'old_password' => 'required|min:6',
+                'new_password' => 'required|min:6|confirmed',
+                'phone' => 'required|min:10|unique:users,phone',
+                'country' => 'required|string|max:40',
+                'status' => 'required|boolean',
+                'role' => 'required|numeric|max:1',
+                'user_avatar' => 'sometimes|mimes:jpeg,jpg,png,gif|max:100000'
             ]);
 
             if ($request->file()) {
-                $directory = dirname($group->group_avatar); // 'avatars/groups/Group One'
+                $directory = dirname($user->user_avatar); // 'avatars/groups/Group One'
                 if (File::exists($directory)) {
                     File::deleteDirectory(public_path($directory));
                 }
-                $group_avatar = $request->file('group_avatar')->store('/avatars/groups/' . $group->group_name, ['disk' => 'my_files']);
+                $user_avatar = $request->file('user_avatar')->store('/avatars/users/' . $user->name, ['disk' => 'my_files']);
             } else {
-                $group_avatar = $group->group_avatar;
+                $user_avatar = $user->user_avatar;
             }
 
-            $group_name = $request->group_name;
-            $group_max = $request->group_max;
+            if ($request->old_password) {
+                $hashed_old_password = md5($request->old_password);
+                $user = User::where('id', $user->id)->first();
+                if ($user->password !== $hashed_old_password) {
+                    return back()->with('errors', __('groups.wrong-old-pass'));
+                }
+            }
+
+            $name = $request->name;
+            $email = $request->email;
             $group_status = $request->group_status;
             $updated_at = Carbon::now();
 
