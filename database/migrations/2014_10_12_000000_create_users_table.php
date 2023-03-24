@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('name', '100')->nullable();
             $table->string('email', '100')->unique()->nullable();
             $table->string('password', '100')->nullable();
-            $table->bigInteger('phone')->unique()->nullable();
-            $table->string('token', 64)->unique()->nullable();
+            $table->string('phone', '50')->unique()->nullable();
+            $table->string('token', '64')->unique()->nullable();
             $table->string('country', '2')->nullable();
             $table->boolean('status')->default(0);
             $table->string('user_avatar')->nullable();
-            $table->smallInteger('role')->default(0);
+            $table->tinyInteger('role')->default(0);
             $table->rememberToken()->nullable();
             $table->timestamps();
         });

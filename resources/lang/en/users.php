@@ -34,6 +34,7 @@ return [
         'update' => 'Update',
     ],
     'added-success' => 'User Added Successfully',
+    'updated-success' => 'User Updated Successfully',
     'wrong-old-pass' => 'Old Password Is Wrong',
     'deleted' => 'User Deleted Successfully',
     'wrong-id' => 'Wrong ID',

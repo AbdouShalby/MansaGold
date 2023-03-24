@@ -22,32 +22,32 @@
                 <!-- User Account -->
                 <li class="dropdown user-menu">
                     <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <img src="{{ asset('img/user/user.png') }}" class="user-image" alt="User Image" />
+                        @if (!empty(Auth::user()->user_avatar))
+                            <img class="h-100 user-image" src="{{ asset(Auth::user()->user_avatar) }}" alt="User Image">
+                        @else
+                            <img class="h-100 user-image" src="{{ asset('img/no-img.png') }}" alt="User Image">
+                        @endif
                         <span class="d-none d-lg-inline-block">{{ Auth::user()->name }}</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <!-- User image -->
                         <li class="dropdown-header">
-                            <img src="{{ asset('img/user/user.png') }}" class="img-circle" alt="User Image" />
+                            @if (!empty(Auth::user()->user_avatar))
+                                <img class="h-100 img-circle" src="{{ asset(Auth::user()->user_avatar) }}" alt="User Image">
+                            @else
+                                <img class="h-100 img-circle" src="{{ asset('img/no-img.png') }}" alt="User Image">
+                            @endif
                             <div class="d-inline-block">
                                 {{ Auth::user()->name }} <small class="pt-1">{{ Auth::user()->email }}</small>
                             </div>
                         </li>
                         <li>
-                            <a href="user-profile.html">
+                            <a href="{{ route('edit.user', Auth::user()->id) }}">
                                 <i class="mdi mdi-account"></i> My Profile
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <i class="mdi mdi-email"></i> Message
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"> <i class="mdi mdi-diamond-stone"></i> Projects </a>
-                        </li>
                         <li class="right-sidebar-in">
-                            <a href="javascript:0"> <i class="mdi mdi-settings"></i> Setting </a>
+                            <a href="javascript:;"> <i class="mdi mdi-settings"></i> Setting </a>
                         </li>
                         <li class="dropdown-footer">
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> <i class="mdi mdi-logout"></i> {{ __('navbar.logout') }} </a>

@@ -56,6 +56,11 @@
     <div class="content">
         @if(isset($users) && count($users) > 0)
         <div class="row">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success mt-1 col-12" role="alert">
+                    {{ $message }}
+                </div>
+            @endif
             @foreach($users as $user)
             <div class="col-lg-6 col-xl-4 col-xxl-3">
                 <div class="card card-default mt-6 mb-4">

@@ -4,11 +4,15 @@
     <div class="content">
         <div class="bg-white border rounded">
             <div class="row no-gutters">
-                <div class="col-lg-4 col-xl-3">
+                <div class="col-lg-4 col-xl-4">
                     <div class="profile-content-left pt-5 pb-3 px-3 px-xl-5">
                         <div class="card text-center widget-profile px-0 border-0">
-                            <div class="card-img mx-auto rounded-circle">
-                                <img src="{{ asset($user->user_avatar) }}" alt="user image" style="width: 128px">
+                            <div class="card-img mx-auto w-100">
+                                @if (isset($user->user_avatar))
+                                    <img class="h-100" src="{{ asset($user->user_avatar) }}" alt="user image">
+                                @else
+                                    <img class="h-100" src="{{ asset('img/no-img.png') }}" alt="user image">
+                                @endif
                             </div>
                             <div class="card-body">
                                 <h4 class="py-2 text-dark">{{ $user->name }}</h4>
@@ -39,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8 col-xl-9">
+                <div class="col-lg-8 col-xl-8">
 
                     <div class="profile-content-right py-5">
                         <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
@@ -58,8 +62,8 @@
                                     <form action="{{ route('update.user', $user->id) }}" method="post" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group row mb-6">
-                                            <label for="{{ __('users.avatar') }}" class="col-sm-4 col-lg-2 col-form-label">{{ __('users.avatar') }}</label>
-                                            <div class="col-sm-8 col-lg-10">
+                                            <label for="{{ __('users.avatar') }}" class="col-sm-4 col-lg-4 col-form-label">{{ __('users.avatar') }}</label>
+                                            <div class="col-sm-8 col-lg-8">
                                                 <div class="custom-file mb-1">
                                                     <input type="file" name="user_avatar" class="custom-file-input" id="{{ __('users.avatar') }}" accept="image/*">
                                                     <label class="custom-file-label" for="{{ __('users.avatar') }}">{{ __('users.choose') }}</label>
@@ -92,35 +96,35 @@
                                             @enderror
                                         </div>
 
-                                        <div class="form-group mb-4">
-                                            <label for="{{ __('users.old-pass') }}">{{ __('users.old-pass') }}</label>
-                                            <input type="password" name="old_password" class="form-control" id="{{ __('users.old-pass') }}">
-                                            @error('old_password')
-                                                <div class="alert alert-danger col-12 mt-1" role="alert">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
+{{--                                        <div class="form-group mb-4">--}}
+{{--                                            <label for="{{ __('users.old-pass') }}">{{ __('users.old-pass') }}</label>--}}
+{{--                                            <input type="password" name="old_password" class="form-control" id="{{ __('users.old-pass') }}">--}}
+{{--                                            @error('old_password')--}}
+{{--                                                <div class="alert alert-danger col-12 mt-1" role="alert">--}}
+{{--                                                    {{ $message }}--}}
+{{--                                                </div>--}}
+{{--                                            @enderror--}}
+{{--                                        </div>--}}
 
-                                        <div class="form-group mb-4">
-                                            <label for="{{ __('users.new-pass') }}">{{ __('users.new-pass') }}</label>
-                                            <input type="password" name="new_password" class="form-control" id="{{ __('users.new-pass') }}">
-                                            @error('new_password')
-                                                <div class="alert alert-danger col-12 mt-1" role="alert">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
+{{--                                        <div class="form-group mb-4">--}}
+{{--                                            <label for="{{ __('users.new-pass') }}">{{ __('users.new-pass') }}</label>--}}
+{{--                                            <input type="password" name="new_password" class="form-control" id="{{ __('users.new-pass') }}">--}}
+{{--                                            @error('new_password')--}}
+{{--                                                <div class="alert alert-danger col-12 mt-1" role="alert">--}}
+{{--                                                    {{ $message }}--}}
+{{--                                                </div>--}}
+{{--                                            @enderror--}}
+{{--                                        </div>--}}
 
-                                        <div class="form-group mb-4">
-                                            <label for="{{ __('users.confirm-pass') }}">{{ __('users.confirm-pass') }}</label>
-                                            <input type="password" name="confirm_password" class="form-control" id="{{ __('users.confirm-pass') }}">
-                                            @error('confirm_password')
-                                                <div class="alert alert-danger col-12 mt-1" role="alert">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
+{{--                                        <div class="form-group mb-4">--}}
+{{--                                            <label for="{{ __('users.confirm-pass') }}">{{ __('users.confirm-pass') }}</label>--}}
+{{--                                            <input type="password" name="confirm_password" class="form-control" id="{{ __('users.confirm-pass') }}">--}}
+{{--                                            @error('confirm_password')--}}
+{{--                                                <div class="alert alert-danger col-12 mt-1" role="alert">--}}
+{{--                                                    {{ $message }}--}}
+{{--                                                </div>--}}
+{{--                                            @enderror--}}
+{{--                                        </div>--}}
 
                                         <div class="form-group mb-4">
                                             <label for="{{ __('users.phone') }}">{{ __('users.phone') }}</label>
@@ -393,6 +397,32 @@
                                                 <div class="alert alert-danger col-12 mt-1" role="alert">
                                                     {{ $message }}
                                                 </div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="{{ __('users.status') }}">{{ __('users.status') }}</label>
+                                            <select class="form-control" id="{{ __('users.status') }}" name="status" required>
+                                                <option selected value="0">{{ __('users.no-groups-to-see') }}</option>
+                                                <option value="1">{{ __('users.see-all-groups') }}</option>
+                                            </select>
+                                            @error('status')
+                                            <div class="alert alert-danger col-12 mt-1" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="{{ __('users.role') }}">{{ __('users.role') }}</label>
+                                            <select class="form-control" id="{{ __('users.role') }}" name="role" required>
+                                                <option selected value="0">{{ __('users.normal') }}</option>
+                                                <option value="1">{{ __('users.admin') }}</option>
+                                            </select>
+                                            @error('role')
+                                            <div class="alert alert-danger col-12 mt-1" role="alert">
+                                                {{ $message }}
+                                            </div>
                                             @enderror
                                         </div>
 

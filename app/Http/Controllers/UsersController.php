@@ -99,8 +99,6 @@ class UsersController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:100',
                 'email' => 'required|email|unique:users,email',
-                'old_password' => 'required|min:6',
-                'new_password' => 'required|min:6|confirmed',
                 'phone' => 'required|min:10|unique:users,phone',
                 'country' => 'required|string|max:40',
                 'status' => 'required|boolean',
@@ -109,7 +107,7 @@ class UsersController extends Controller
             ]);
 
             if ($request->file()) {
-                $directory = dirname($user->user_avatar); // 'avatars/groups/Group One'
+                $directory = dirname($user->user_avatar);
                 if (File::exists($directory)) {
                     File::deleteDirectory(public_path($directory));
                 }
@@ -118,28 +116,26 @@ class UsersController extends Controller
                 $user_avatar = $user->user_avatar;
             }
 
-            if ($request->old_password) {
-                $hashed_old_password = md5($request->old_password);
-                $user = User::where('id', $user->id)->first();
-                if ($user->password !== $hashed_old_password) {
-                    return back()->with('errors', __('groups.wrong-old-pass'));
-                }
-            }
-
             $name = $request->name;
             $email = $request->email;
-            $group_status = $request->group_status;
+            $phone = $request->phone;
+            $country = $request->country;
+            $status = $request->status;
+            $role = $request->role;
             $updated_at = Carbon::now();
 
-            DB::table('groups')->where('id', $id)->update([
-                'group_name' => $group_name,
-                'group_max_subscription' => $group_max,
-                'group_status' => $group_status,
-                'group_avatar' => $group_avatar,
-                'updated_at' => $updated_at
+            DB::table('users')->where('id', $id)->update([
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'country' => $country,
+                'status' => $status,
+                'role' => $role,
+                'user_avatar' => $user_avatar,
+                'updated_at' => $updated_at,
             ]);
 
-            return back()->with('success', __('groups.added-success'));
+            return back()->with('success', __('users.updated-success'));
         } else {
             return back();
         }
@@ -150,17 +146,17 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
-        $group = Group::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        if (!empty($group->group_avatar)) {
-            $directory = dirname($group->group_avatar); // 'avatars/groups/Group One'
+        if (!empty($user->user_avatar)) {
+            $directory = dirname($user->user_avatar); // 'avatars/groups/Group One'
             File::exists($directory);
             File::deleteDirectory(public_path($directory));
         }
 
-        $group->delete();
+        $user->delete();
 
 
-        return back()->with('success', __('groups.deleted'));
+        return back()->with('success', __('users.deleted'));
     }
 }
