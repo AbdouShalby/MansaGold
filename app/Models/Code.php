@@ -19,6 +19,7 @@ class Code extends Model
         'group_id',
         'code_balance',
         'code_status',
+        'used_at',
     ];
 
     /**

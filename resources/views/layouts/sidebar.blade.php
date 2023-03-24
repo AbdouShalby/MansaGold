@@ -66,6 +66,27 @@
                         </div>
                     </ul>
                 </li>
+                <li class="has-sub {{ isset($pageTitle) && $pageTitle == 'codes' ? 'active' : '' }}">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#codes"
+                       aria-expanded="false" aria-controls="codes">
+                        <i class="mdi mdi-barcode-scan"></i>
+                        <span class="nav-text">{{ __('codes.codes.title') }}</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="codes" data-parent="#sidebar-menu">
+                        <div class="sub-menu">
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('all.codes') }}">
+                                    <span class="nav-text">{{ __('codes.codes.all') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('create.code') }}">
+                                    <span class="nav-text">{{ __('codes.codes.create') }}</span>
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

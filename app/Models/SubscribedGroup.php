@@ -19,5 +19,6 @@ class SubscribedGroup extends Model
         'group_id',
         'code_id',
         'code_balance',
+        'subscribed_at',
     ];
 }

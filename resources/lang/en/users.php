@@ -12,6 +12,7 @@ return [
         'email' => 'No Email',
         'phone' => 'No Phone',
         'country' => 'No Country',
+        'users' => 'No Users',
     ],
     'admin' => 'Admin',
     'normal' => 'Normal User',

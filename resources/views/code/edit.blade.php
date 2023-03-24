@@ -403,8 +403,8 @@
                                         <div class="form-group">
                                             <label for="{{ __('users.status') }}">{{ __('users.status') }}</label>
                                             <select class="form-control" id="{{ __('users.status') }}" name="status" required>
-                                                <option {{ $user->status == 0 ? 'selected' : '' }} value="0">{{ __('users.no-groups-to-see') }}</option>
-                                                <option {{ $user->status == 1 ? 'selected' : '' }} value="1">{{ __('users.see-all-groups') }}</option>
+                                                <option selected value="0">{{ __('users.no-groups-to-see') }}</option>
+                                                <option value="1">{{ __('users.see-all-groups') }}</option>
                                             </select>
                                             @error('status')
                                             <div class="alert alert-danger col-12 mt-1" role="alert">
@@ -416,8 +416,8 @@
                                         <div class="form-group">
                                             <label for="{{ __('users.role') }}">{{ __('users.role') }}</label>
                                             <select class="form-control" id="{{ __('users.role') }}" name="role" required>
-                                                <option {{ $user->role == 0 ? 'selected' : '' }} value="0">{{ __('users.normal') }}</option>
-                                                <option {{ $user->role == 1 ? 'selected' : '' }} value="1">{{ __('users.admin') }}</option>
+                                                <option selected value="0">{{ __('users.normal') }}</option>
+                                                <option value="1">{{ __('users.admin') }}</option>
                                             </select>
                                             @error('role')
                                             <div class="alert alert-danger col-12 mt-1" role="alert">

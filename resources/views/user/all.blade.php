@@ -100,7 +100,7 @@
                 <!-- Recent Order Table -->
                 <div class="card card-table-border-none" id="recent-orders">
                     <div class="card-header justify-content-between">
-                        <h2 class="mb-4">{{ __('dashboard.recent-groups.no-invest') }}</h2>
+                        <h2 class="mb-4">{{ __('users.no.users') }}</h2>
                     </div>
                 </div>
             </div>
