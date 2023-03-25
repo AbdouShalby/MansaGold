@@ -77,9 +77,6 @@
                                            aria-expanded="false" data-display="static"></a>
                                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1">
                                             <li class="dropdown-item">
-                                                <a href="{{ route('show.group', $group->id) }}">{{ __('dashboard.view') }}</a>
-                                            </li>
-                                            <li class="dropdown-item">
                                                 <a href="{{ route('edit.group', $group->id) }}">{{ __('dashboard.edit') }}</a>
                                             </li>
                                             <li class="dropdown-item">

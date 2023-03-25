@@ -21,7 +21,7 @@
                         </div>
                         <hr class="w-100">
                         <div class="contact-info pt-4">
-                            <h5 class="text-dark mb-1">Contact Information</h5>
+                            <h5 class="text-dark mb-1">{{ __('users.contact') }}</h5>
                             <p class="text-dark font-weight-medium pt-4 mb-2">{{ __('users.email') }}</p>
                             <p>{{ $user->email }}</p>
                             <p class="text-dark font-weight-medium pt-4 mb-2">{{ __('users.phone') }}</p>

@@ -7,11 +7,14 @@
         <!-- search form -->
         <div class="search-form d-none d-lg-inline-block">
             <div class="input-group">
-                <input type="text" name="query" id="search-input" class="form-control"
-                       placeholder="'button', 'chart' etc." autofocus autocomplete="off" />
-                <button type="button" name="search" id="search-btn" class="btn btn-flat">
-                    <i class="mdi mdi-magnify"></i>
-                </button>
+                <form class="form-inline" method="POST" action="{{ route('search') }}" id="search-form">
+                    @csrf
+                    <input type="search" name="search" id="search-input" class="form-control"
+                           placeholder="{{ __('navbar.search-now') }}" autofocus autocomplete="off" />
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                        <i class="mdi mdi-magnify"></i>
+                    </button>
+                </form>
             </div>
             <div id="search-results-container">
                 <ul id="search-results"></ul>

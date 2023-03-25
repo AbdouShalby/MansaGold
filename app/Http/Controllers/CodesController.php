@@ -74,9 +74,13 @@ class CodesController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id', $id)->get()->first();
-        return view('user/edit', [
-            'user' => $user
+        $code = Code::where('id', $id)->get()->first();
+        $groups = Group::where('group_status', '=', 0)->get();
+        $code_group = Group::where('id', $code->group_id)->get()->first();
+        return view('code/edit', [
+            'code' => $code,
+            'groups' => $groups,
+            'code_group' => $code_group
         ]);
     }
 

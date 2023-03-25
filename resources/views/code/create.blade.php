@@ -86,7 +86,7 @@
                                         <option value="0">{{ __('codes.no.groups') }}</option>
                                     @endif
                                 </select>
-                                @error('status')
+                                @error('group')
                                 <div class="alert alert-danger col-12 mt-1" role="alert">
                                     {{ $message }}
                                 </div>
@@ -95,7 +95,7 @@
                             <div class="form-group">
                                 <label for="{{ __('codes.balance') }}">{{ __('codes.balance') }}</label>
                                 <input type="text" name="balance" class="form-control" id="{{ __('codes.balance') }}" placeholder="{{ __('codes.balance') }}" required>
-                                @error('phone')
+                                @error('balance')
                                     <div class="alert alert-danger col-12 mt-1" role="alert">
                                         {{ $message }}
                                     </div>

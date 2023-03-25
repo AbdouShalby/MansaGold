@@ -37,6 +37,7 @@ return [
     'added-success' => 'User Added Successfully',
     'updated-success' => 'User Updated Successfully',
     'wrong-old-pass' => 'Old Password Is Wrong',
+    'contact' => 'Contact Information',
     'deleted' => 'User Deleted Successfully',
     'wrong-id' => 'Wrong ID',
     'no-groups-to-see' => 'Cant See Any Groups',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -34,6 +35,27 @@ class HomeController extends Controller
             'totalUsers' => $countOfUsers,
             'totalGroups' => $countOfGroups,
             'totalInvest' => $countOfInvest
+        ]);
+    }
+
+    public function search(Request $request) {
+        $search = $request->search;
+        if($search)
+        {
+            $groups = Group::where('group_name', 'LIKE', '%'. $search .'%')->get();
+            $users = User::where('name', 'LIKE', '%'. $search .'%')
+                ->orWhere('email', 'LIKE', '%'. $search .'%')->get();
+        }
+        else
+        {
+            $groups = Group::get();
+            $users = User::get();
+        }
+
+
+        return view('search', [
+            'groups' => $groups,
+            'users' => $users,
         ]);
     }
 }
