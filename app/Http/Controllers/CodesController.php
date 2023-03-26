@@ -89,49 +89,26 @@ class CodesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::where('id', $id)->get()->first();
+        $code = Code::where('id', $id)->get()->first();
 
-        if (!empty($user)) {
+        if (!empty($code)) {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:100',
-                'email' => 'required|email|unique:users,email',
-                'phone' => 'required|min:10|unique:users,phone',
-                'country' => 'required|string|max:40',
-                'status' => 'required|boolean',
-                'role' => 'required|numeric|max:1',
-                'user_avatar' => 'sometimes|mimes:jpeg,jpg,png,gif|max:100000'
+                'key' => 'required|string|size:16',
+                'group' => 'required|exists:groups,id',
+                'balance' => 'required|min:1',
             ]);
 
-            if ($request->file()) {
-                $directory = dirname($user->user_avatar);
-                if (File::exists($directory)) {
-                    File::deleteDirectory(public_path($directory));
-                }
-                $user_avatar = $request->file('user_avatar')->store('/avatars/users/' . $user->name, ['disk' => 'my_files']);
-            } else {
-                $user_avatar = $user->user_avatar;
-            }
-
-            $name = $request->name;
-            $email = $request->email;
-            $phone = $request->phone;
-            $country = $request->country;
-            $status = $request->status;
-            $role = $request->role;
+            $group = $request->group;
+            $balance = $request->balance;
             $updated_at = Carbon::now();
 
-            DB::table('users')->where('id', $id)->update([
-                'name' => $name,
-                'email' => $email,
-                'phone' => $phone,
-                'country' => $country,
-                'status' => $status,
-                'role' => $role,
-                'user_avatar' => $user_avatar,
+            DB::table('codes')->where('id', $id)->update([
+                'group_id' => $group,
+                'code_balance' => $balance,
                 'updated_at' => $updated_at,
             ]);
 
-            return back()->with('success', __('users.updated-success'));
+            return back()->with('success', __('codes.updated-success'));
         } else {
             return back();
         }
@@ -142,17 +119,8 @@ class CodesController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id);
-
-        if (!empty($user->user_avatar)) {
-            $directory = dirname($user->user_avatar); // 'avatars/groups/Group One'
-            File::exists($directory);
-            File::deleteDirectory(public_path($directory));
-        }
-
-        $user->delete();
-
-
-        return back()->with('success', __('users.deleted'));
+        $code = Code::findOrFail($id);
+        $code->delete();
+        return back()->with('success', __('code.deleted'));
     }
 }

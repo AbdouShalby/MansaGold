@@ -87,6 +87,27 @@
                         </div>
                     </ul>
                 </li>
+                <li class="has-sub {{ isset($pageTitle) && $pageTitle == 'banners' ? 'active' : '' }}">
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#banners"
+                       aria-expanded="false" aria-controls="banners">
+                        <i class="mdi mdi-camera-image"></i>
+                        <span class="nav-text">{{ __('banner.banner.title') }}</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="banners" data-parent="#sidebar-menu">
+                        <div class="sub-menu">
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('all.banners') }}">
+                                    <span class="nav-text">{{ __('banner.banner.all') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('create.banner') }}">
+                                    <span class="nav-text">{{ __('banner.banner.create') }}</span>
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
