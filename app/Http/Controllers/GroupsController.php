@@ -39,6 +39,7 @@ class GroupsController extends Controller
         $validator = Validator::make($request->all(), [
             'group_name' => 'required|string|max:100|unique:groups,group_name',
             'group_max' => 'required',
+            'group_gain' => 'required',
             'group_avatar' => 'required|file'
         ]);
 
@@ -53,6 +54,7 @@ class GroupsController extends Controller
         $group->current_subscription = 0;
         $group->group_max_subscription = $request->group_max;
         $group->group_status = 0;
+        $group->group_gain = $request->group_gain;
         $path = $request->file('group_avatar')->store('/avatars/groups/' . $group->group_name, ['disk' => 'my_files']);
         $group->group_avatar = $path;
         $group->created_at = Carbon::now();

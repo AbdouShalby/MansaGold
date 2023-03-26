@@ -17,6 +17,7 @@ return new class extends Migration
             $table->smallInteger('current_subscription')->default(0);
             $table->smallInteger('group_max_subscription');
             $table->smallInteger('group_status')->default(0);
+            $table->smallInteger('group_gain')->default(0);
             $table->string('group_avatar')->nullable();
             $table->timestamps();
         });

@@ -35,6 +35,15 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="{{ __('groups.gain') }}">{{ __('groups.gain') }}</label>
+                                <input type="text" name="group_gain" class="form-control" id="{{ __('groups.gain') }}" placeholder="{{ __('groups.gain') }}" value="{{ $group->group_gain }}" required>
+                                @error('group_gain')
+                                <div class="alert alert-danger col-12 mt-1" role="alert">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="{{ __('groups.status.title') }}">{{ __('groups.status.title') }}</label>
                                 <select class="form-control" id="{{ __('groups.status.title') }}" name="group_status" required>
                                     <option {{ $group->group_status == 0 ? 'selected' : '' }} value="0">{{ __('groups.status.available') }}</option>

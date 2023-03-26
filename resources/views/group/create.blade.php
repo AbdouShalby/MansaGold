@@ -35,6 +35,15 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="{{ __('groups.gain') }}">{{ __('groups.gain') }}</label>
+                                <input type="text" name="group_gain" class="form-control" id="{{ __('groups.gain') }}" placeholder="{{ __('groups.gain') }}" required>
+                                @error('group_gain')
+                                <div class="alert alert-danger col-12 mt-1" role="alert">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="{{ __('groups.avatar') }}">{{ __('groups.avatar') }}</label>
                                 <input type="file" name="group_avatar" class="form-control-file" id="{{ __('groups.avatar') }}" accept="image/*" required>
                                 @error('group_avatar')

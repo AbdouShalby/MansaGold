@@ -2,10 +2,11 @@
 @extends('layouts.app')
 @section('content')
     <script>
-        function ShowThis(name, current, max, status, avatar, created, updated) {
+        function ShowThis(name, current, max, status, avatar, gain, created, updated) {
             $("#name").text(base64_decode(name));
             $("#current").text(current);
             $("#max").text(max);
+            $("#gain").text(gain);
             if(status == 0) {
                 $("#status").html('<span class="badge badge-primary">{{ __('dashboard.recent-groups.status.available') }}</span>');
             } else if(status == 1) {
@@ -40,7 +41,7 @@
                 <div class="card card-default mt-6 mb-4">
                     <div class="card-body text-center p-4">
                         <a href="javascript:;"
-                            onclick="ShowThis('{{ base64_encode($group->group_name) }}','{{ $group->current_subscription }}','{{ $group->group_max_subscription }}','{{ $group->group_status }}','{{ base64_encode($group->group_avatar) }}','{{ $group->created_at }}','{{ $group->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
+                            onclick="ShowThis('{{ base64_encode($group->group_name) }}','{{ $group->current_subscription }}','{{ $group->group_max_subscription }}','{{ $group->group_status }}','{{ base64_encode($group->group_avatar) }}','{{ $group->group_gain }}','{{ $group->created_at }}','{{ $group->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
 
                             <div class="image mb-3 mt-n9">
                                 @if($group->group_avatar != null)
@@ -102,6 +103,7 @@
 
                                     <div class="card-body">
                                         <h4 class="py-2 text-dark" id="name"></h4>
+                                        <p>{{ __('groups.gain') }}: <span id="gain"></span></p>
                                     </div>
                                 </div>
 

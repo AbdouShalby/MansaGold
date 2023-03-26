@@ -43,19 +43,14 @@ class HomeController extends Controller
         if($search)
         {
             $groups = Group::where('group_name', 'LIKE', '%'. $search .'%')->get();
-            $users = User::where('name', 'LIKE', '%'. $search .'%')
-                ->orWhere('email', 'LIKE', '%'. $search .'%')->get();
         }
         else
         {
             $groups = Group::get();
-            $users = User::get();
         }
-
 
         return view('search', [
             'groups' => $groups,
-            'users' => $users,
         ]);
     }
 }

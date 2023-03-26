@@ -11,7 +11,7 @@
                     @csrf
                     <input type="search" name="search" id="search-input" class="form-control"
                            placeholder="{{ __('navbar.search-now') }}" autofocus autocomplete="off" />
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat" onclick="document.getElementById('search-form').submit();">
                         <i class="mdi mdi-magnify"></i>
                     </button>
                 </form>

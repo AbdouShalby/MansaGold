@@ -11,6 +11,7 @@ return [
     'name' => 'Group Name',
     'current' => 'Current Subscription',
     'max' => 'Max Subscription',
+    'gain' => 'Group Gain',
     'status' => [
         'title' => 'Group Status',
         'available' => 'Available for Investment',
