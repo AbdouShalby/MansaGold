@@ -3,12 +3,16 @@
 @section('content')
     <script>
         function ShowThis(banner_path, banner_status, banner_url, created_at, updated_at) {
-            $("#banner_path").text(base64_decode(banner_path));
+            if(banner_path !== '') {
+                $("#avatar").attr("src", "{{ asset('') }}" + base64_decode(banner_path));
+            } else {
+                $("#avatar").attr("src", "{{ asset('img/no-img.png') }}");
+            }
 
             if(banner_status == 0) {
-                $("#banner_status").html('<span class="badge badge-danger">{{ __('codes.no.not-used') }}</span>');
+                $("#banner_status").html('<span class="badge badge-danger">{{ __('banner.status.disabled') }}</span>');
             } else {
-                $("#banner_status").html('<span class="badge badge-success">{{ __('codes.expired') }}</span>');
+                $("#banner_status").html('<span class="badge badge-success">{{ __('banner.status.activated') }}</span>');
             }
 
             $("#banner_url").text(banner_url);
@@ -94,56 +98,11 @@
                             <div class="profile-content-left px-4">
                                 <div class="card text-center widget-profile px-0 border-0">
                                     <div class="card-img mx-auto rounded-circle">
-                                        <img id="avatar" src="{{ asset('img/code.png') }}" class="img-fluid rounded-circle" alt="Avatar Image">
+                                        <img id="avatar" src="" class="img-fluid rounded-circle" alt="Avatar Image">
                                     </div>
 
                                     <div class="card-body">
-                                        <input name="key" type="text" class="form-control text-center" id="code_key" onfocus="selectInputText()" readonly>
-                                        <div class="input-group-append mt-1">
-                                            <button type="button" class="btn btn-success m-auto" id="copy-code-btn" onclick="copyCode()">Copy <i class="mdi mdi-content-copy"></i></button>
-                                        </div>
-                                        <script>
-                                            function selectInputText() {
-                                                var input = document.getElementById("code_key");
-                                                input.setSelectionRange(0, input.value.length); // Select all text in the input field
-                                            }
-
-                                            function copyCode() {
-                                                var button = document.getElementById("copy-code-btn");
-                                                var input = document.getElementById("code_key");
-
-                                                if (input.value === "") {
-                                                    button.innerHTML = '<span>Empty</span> <i class="mdi mdi-alert"></i>';
-                                                    button.classList.remove("btn-success");
-                                                    button.classList.add("btn-danger");
-                                                    setTimeout(function() {
-                                                        button.innerHTML = '<span>Copy</span> <i class="mdi mdi-content-copy"></i>';
-                                                        button.classList.remove("btn-danger");
-                                                        button.classList.add("btn-success");
-                                                    }, 2000);
-                                                } else {
-                                                    input.select(); // Select all text in the input field
-                                                    document.execCommand("copy"); // Copy the selected text to the clipboard
-                                                    button.innerHTML = '<span>Copied</span> <i class="mdi mdi-check"></i>';
-                                                    button.classList.add("copied");
-                                                    setTimeout(function() {
-                                                        button.innerHTML = '<span>Copy</span> <i class="mdi mdi-content-copy"></i>';
-                                                        button.classList.remove("copied");
-                                                    }, 2000);
-                                                }
-                                            }
-                                        </script>
-                                        <p class="py-2 text-black-50" id="code_balance"></p>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex justify-content-between ">
-                                    <div class="text-center pb-4" id="phone">
-                                        <h6 class="text-dark pb-2"></h6>
-                                    </div>
-
-                                    <div class="text-center pb-4" id="country">
-                                        <h6 class="text-dark pb-2"></h6>
+                                        <p class="py-2 text-black-50" id="banner_url"></p>
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +110,7 @@
 
                         <div class="col-md-6">
                             <div class="contact-info px-4">
-                                <div class="mb-1" id="code_status">
+                                <div class="mb-1" id="banner_status">
                                 </div>
                                 <p class="text-dark font-weight-medium pt-4 mb-2" >{{ __('groups.created') }}</p>
                                 <p id="created_at"></p>

@@ -49,7 +49,7 @@ class BannersController extends Controller
         }
 
         $banner = new Banner();
-        $path = $request->file('banner')->store('/banners/' . Str::random(15), ['disk' => 'my_files']);
+        $path = $request->file('banner')->store('/avatars/banners/' . Str::random(15), ['disk' => 'my_files']);
         $banner->banner_path = $path;
         $banner->banner_status = $request->banner_status;
         $banner->banner_url = $request->banner_url;
@@ -86,33 +86,21 @@ class BannersController extends Controller
 
         if (!empty($banner)) {
             $validator = Validator::make($request->all(), [
-                'banner' => 'required|mimes:jpeg,jpg,png,gif|max:100000',
                 'banner_status' => 'required',
                 'banner_url' => 'sometimes|string',
             ]);
-
-            if ($request->file()) {
-                $directory = dirname($banner->banner_path);
-                if (File::exists($directory)) {
-                    File::deleteDirectory(public_path($directory));
-                }
-                $banner_path = $request->file('banner')->store('/banners/' . Str::random(15), ['disk' => 'my_files']);
-            } else {
-                $banner_path = $banner->banner_path;
-            }
 
             $status = $request->banner_status;
             $url = $request->banner_url;
             $updated_at = Carbon::now();
 
-            DB::table('users')->where('id', $id)->update([
-                'banner_path' => $banner_path,
+            DB::table('banners')->where('id', $id)->update([
                 'banner_status' => $status,
                 'banner_url' => $url,
                 'updated_at' => $updated_at,
             ]);
 
-            return back()->with('success', __('codes.updated-success'));
+            return back()->with('success', __('banner.updated-success'));
         } else {
             return back();
         }
@@ -133,6 +121,6 @@ class BannersController extends Controller
 
         $banner->delete();
 
-        return back()->with('success', __('users.deleted'));
+        return back()->with('success', __('banner.deleted'));
     }
 }

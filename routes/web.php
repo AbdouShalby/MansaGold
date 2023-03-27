@@ -62,4 +62,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('banner/delete/{id}', [BannersController::class, 'destroy'])->name('delete.banner');
 
     Route::post('search', [HomeController::class, 'search'])->name('search');
+
+    Route::get('locale/{locale}',function($locale){
+        Session::put('locale',$locale);
+        return redirect()->back();
+    })->name('switchLang');
 });

@@ -20,6 +20,17 @@
                 <ul id="search-results"></ul>
             </div>
         </div>
+        <ul class="navbar-nav mr-lg-2">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                    <i class="mdi mdi-google-translate mdi-18px"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                    <a class="dropdown-item" href="{{ route('switchLang','en') }}"><i class="mdi mdi-alpha-e-box mdi-18px"></i> {{ __('navbar.english') }}</a>
+                    <a class="dropdown-item" href="{{ route('switchLang','ar') }}"><i class="mdi mdi-alpha-a-box mdi-18px"></i> {{ __('navbar.arabic') }}</a>
+                </div>
+            </li>
+        </ul>
         <div class="navbar-right ">
             <ul class="nav navbar-nav">
                 <!-- User Account -->

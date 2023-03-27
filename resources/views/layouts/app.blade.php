@@ -23,7 +23,11 @@
     <link href="{{ asset('plugins/toastr/toastr.min.css') }}" rel="stylesheet" />
 
     <!-- SLEEK CSS -->
-    <link id="sleek-css" rel="stylesheet" href="{{ asset('css/sleek.css') }}" />
+    @if(app()->getLocale() == 'en')
+        <link id="sleek-css" rel="stylesheet" href="{{ asset('css/sleek.css') }}" />
+    @else
+        <link id="sleek-css" rel="stylesheet" href="{{ asset('css/sleek.rtl.css') }}">
+    @endif
     <link id="sleek-css" rel="stylesheet" href="{{ asset('css/custom.css') }}" />
 
     <!-- FAVICON -->
@@ -39,7 +43,7 @@
     <![endif]-->
     <script src="{{ asset('plugins/nprogress/nprogress.js') }}"></script>
 </head>
-<body class="header-fixed sidebar-fixed sidebar-dark header-dark" id="body">
+<body class="header-fixed sidebar-fixed sidebar-dark header-dark" id="body" dir="{{( Session::get('locale') === 'en' ? 'ltr' : 'rtl' )}}">
     <script>
         NProgress.configure({ showSpinner: false });
         NProgress.start();
