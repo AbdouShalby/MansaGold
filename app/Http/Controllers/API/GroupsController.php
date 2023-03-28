@@ -57,7 +57,9 @@ class GroupsController extends Controller
                 foreach ($myGroups as $group) {
                     $totalBalance += $group->code_balance;
                 }
-                $groupsData = Group::where('id', $myGroups->group_id)->get();
+                foreach ($myGroups as $group) {
+                    $groupsData = Group::where('id', $group->group_id)->get();
+                }
                 $groupsArray = $myGroups->toArray();
                 $response['success'] = 'Success';
                 $response['message'] = 'Groups';

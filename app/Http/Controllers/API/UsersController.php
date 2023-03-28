@@ -81,6 +81,7 @@ class UsersController extends Controller
                         } else {
                             // Insert the user data into the database
                             $id = DB::table('users')->insertGetId(['email' => $email]);
+                            DB::table('user_balance')->insert(['user_id' => $id, 'balance' => 0]);
 
                             // Get the user information from the inserted row
                             $user = User::where('id', $id)->first();
@@ -105,6 +106,7 @@ class UsersController extends Controller
                         } else {
                             // Insert the user data into the database
                             $id = DB::table('users')->insertGetId(['phone' => $phone]);
+                            DB::table('user_balance')->insert(['user_id' => $id, 'balance' => 0]);
 
                             // Get the user information from the inserted row
                             $user = User::where('id', $id)->first();
@@ -144,6 +146,8 @@ class UsersController extends Controller
                 DB::table('users')->insert(['email' => $email, 'password' => $hashPassword]);
 
                 $user = User::where('email', $email)->where('password', $hashPassword)->first();
+
+                DB::table('user_balance')->insert(['user_id' => $user->id, 'balance' => 0]);
 
                 $registredUser = $user->toArray();
                 $registredUser['token'] = $this->adduseraccess($registredUser['id']);
