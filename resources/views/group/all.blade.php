@@ -4,9 +4,13 @@
     <script>
         function ShowThis(name, current, max, status, avatar, gain, created, updated) {
             $("#name").text(base64_decode(name));
-            $("#current").text(current);
-            $("#max").text(max);
-            $("#gain").text(gain);
+            $("#current").html('<p>{{ __('groups.current') }}</p> <h6 class="text-dark pb-2">' + current + ' {{ __('groups.gm') }}</h6>');
+            $("#max").html('<p>{{ __('groups.max') }}</p> <h6 class="text-dark pb-2">' + max + ' {{ __('groups.gm') }}</h6>');
+            if(gain == 3) {
+                $("#gain").html('<span class="badge badge-dark">{{ __('groups.gain.normal') }}</span>');
+            } else {
+                $("#gain").html('<span class="badge badge-dark">{{ __('groups.gain.rezon') }}</span>');
+            }
             if(status == 0) {
                 $("#status").html('<span class="badge badge-primary">{{ __('dashboard.recent-groups.status.available') }}</span>');
             } else if(status == 1) {
@@ -103,19 +107,15 @@
 
                                     <div class="card-body">
                                         <h4 class="py-2 text-dark" id="name"></h4>
-                                        <p>{{ __('groups.gain') }}: <span id="gain"></span></p>
+                                        <p><span id="gain"></span></p>
                                     </div>
                                 </div>
 
                                 <div class="d-flex justify-content-between ">
-                                    <div class="text-center pb-4">
-                                        <h6 class="text-dark pb-2" id="current"></h6>
-                                        <p>{{ __('groups.current') }}</p>
+                                    <div class="text-center pb-4" id="current">
                                     </div>
 
-                                    <div class="text-center pb-4">
-                                        <h6 class="text-dark pb-2" id="max"></h6>
-                                        <p>{{ __('groups.max') }}</p>
+                                    <div class="text-center pb-4" id="max">
                                     </div>
                                 </div>
                             </div>

@@ -94,6 +94,7 @@ class GroupsController extends Controller
             $validator = Validator::make($request->all(), [
                 'group_name' => 'required|string|max:100|unique:groups,group_name',
                 'group_max' => 'required',
+                'group_gain' => 'required',
                 'group_status' => 'required',
                 'group_avatar' => 'file'
             ]);
@@ -110,12 +111,14 @@ class GroupsController extends Controller
 
             $group_name = $request->group_name;
             $group_max = $request->group_max;
+            $group_gain = $request->group_gain;
             $group_status = $request->group_status;
             $updated_at = Carbon::now();
 
             DB::table('groups')->where('id', $id)->update([
                 'group_name' => $group_name,
                 'group_max_subscription' => $group_max,
+                'group_gain' =>$group_gain,
                 'group_status' => $group_status,
                 'group_avatar' => $group_avatar,
                 'updated_at' => $updated_at

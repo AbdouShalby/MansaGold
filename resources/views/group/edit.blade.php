@@ -35,8 +35,11 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="{{ __('groups.gain') }}">{{ __('groups.gain') }}</label>
-                                <input type="text" name="group_gain" class="form-control" id="{{ __('groups.gain') }}" placeholder="{{ __('groups.gain') }}" value="{{ $group->group_gain }}" required>
+                                <label for="{{ __('groups.gain.title') }}">{{ __('groups.gain.title') }}</label>
+                                <select class="form-control" id="{{ __('groups.gain.title') }}" name="group_gain" required>
+                                    <option {{ $group->group_gain == 3 ? 'selected' : '' }} value="3">{{ __('groups.gain.normal') }}</option>
+                                    <option {{ $group->group_gain == 6 ? 'selected' : '' }} value="6">{{ __('groups.gain.rezon') }}</option>
+                                </select>
                                 @error('group_gain')
                                 <div class="alert alert-danger col-12 mt-1" role="alert">
                                     {{ $message }}

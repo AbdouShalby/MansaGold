@@ -11,7 +11,12 @@ return [
     'name' => 'Group Name',
     'current' => 'Current Subscription',
     'max' => 'Max Subscription',
-    'gain' => 'Group Gain',
+    'gm' => 'Gram',
+    'gain' => [
+        'title' => 'Group Gain',
+        'normal' => 'Normal Gain',
+        'rezon' => 'Rezon',
+    ],
     'status' => [
         'title' => 'Group Status',
         'available' => 'Available for Investment',

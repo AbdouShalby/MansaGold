@@ -57,11 +57,13 @@ class GroupsController extends Controller
                 foreach ($myGroups as $group) {
                     $totalBalance += $group->code_balance;
                 }
+                $groupsData = Group::where('id', $myGroups->group_id)->get();
                 $groupsArray = $myGroups->toArray();
                 $response['success'] = 'Success';
                 $response['message'] = 'Groups';
                 $response['totalBalance'] = $totalBalance;
-                $response['groups'] = $groupsArray;
+                $response['myGroups'] = $groupsArray;
+                $response['myGroupsData'] = $groupsData;
             } else {
                 $response['success'] = 'Failed';
                 $response['message'] = 'Wrong Token';
