@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\SubscribedGroup;
+use App\Models\UserBalance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -115,14 +117,29 @@ class GroupsController extends Controller
             $group_status = $request->group_status;
             $updated_at = Carbon::now();
 
-            DB::table('groups')->where('id', $id)->update([
-                'group_name' => $group_name,
-                'group_max_subscription' => $group_max,
-                'group_gain' =>$group_gain,
-                'group_status' => $group_status,
-                'group_avatar' => $group_avatar,
-                'updated_at' => $updated_at
-            ]);
+            if ($group_status == 1) {
+                $subGroups = SubscribedGroup::where('group_id', $group->id)->get();
+                foreach ($subGroups as $sub) {
+                    UserBalance::query()->where('user_id', $sub->user_id)->update(['balance' => DB::raw('balance + ' . $sub->code_balance)]);
+                }
+                DB::table('groups')->where('id', $id)->update([
+                    'group_name' => $group_name,
+                    'group_max_subscription' => $group_max,
+                    'group_gain' =>$group_gain,
+                    'group_status' => $group_status,
+                    'group_avatar' => $group_avatar,
+                    'updated_at' => $updated_at
+                ]);
+            } else {
+                DB::table('groups')->where('id', $id)->update([
+                    'group_name' => $group_name,
+                    'group_max_subscription' => $group_max,
+                    'group_gain' =>$group_gain,
+                    'group_status' => $group_status,
+                    'group_avatar' => $group_avatar,
+                    'updated_at' => $updated_at
+                ]);
+            }
 
             return back()->with('success', __('groups.added-success'));
         } else {
