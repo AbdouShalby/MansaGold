@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\Logs;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -51,6 +52,13 @@ class HomeController extends Controller
 
         return view('search', [
             'groups' => $groups,
+        ]);
+    }
+
+    public function logs(Request $request) {
+        $logs = Logs::all();
+        return view('logs', [
+            'logs' => $logs,
         ]);
     }
 }

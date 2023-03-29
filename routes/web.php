@@ -63,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('search', [HomeController::class, 'search'])->name('search');
 
+    Route::get('logs', [HomeController::class, 'logs'])->name('logs');
+
     Route::get('locale/{locale}',function($locale){
         Session::put('locale',$locale);
         return redirect()->back();

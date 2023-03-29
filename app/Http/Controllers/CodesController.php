@@ -58,6 +58,16 @@ class CodesController extends Controller
         $code->code_balance = $request->balance;
         $code->save();
 
+        $codeData = Code::where('id', $code->id)->first();
+        $groupName = Group::where('id', $codeData->group_id)->first();
+
+        DB::table('logs')->insert([
+            'name' => 'code',
+            'description' => __('logs.code.inserted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance, 'date' => $codeData->created_at]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         return back()->with('success', __('codes.added-success'));
     }
 
@@ -106,6 +116,16 @@ class CodesController extends Controller
                 'group_id' => $group,
                 'code_balance' => $balance,
                 'updated_at' => $updated_at,
+            ]);
+
+            $codeData = Code::where('id', $code->id)->first();
+            $groupName = Group::where('id', $codeData->group_id)->first();
+
+            DB::table('logs')->insert([
+                'name' => 'code',
+                'description' => __('logs.code.inserted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance, 'date' => $codeData->updated_at]),
+                'created_at' => $code->created_at,
+                'updated_at' => now(),
             ]);
 
             return back()->with('success', __('codes.updated-success'));
