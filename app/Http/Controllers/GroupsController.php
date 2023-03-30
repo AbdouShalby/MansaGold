@@ -63,6 +63,13 @@ class GroupsController extends Controller
         $group->updated_at = Carbon::now();
         $group->save();
 
+        DB::table('logs')->insert([
+            'name' => 'group',
+            'description' => __('logs.group.inserted', ['name' => $group->group_name, 'date' => $group->created_at]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         return back()->with('success', __('groups.added-success'));
     }
 
@@ -141,6 +148,13 @@ class GroupsController extends Controller
                 ]);
             }
 
+            DB::table('logs')->insert([
+                'name' => 'group',
+                'description' => __('logs.group.updated', ['name' => $group->group_name, 'date' => $group->created_at]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
             return back()->with('success', __('groups.added-success'));
         } else {
             return back();
@@ -160,8 +174,14 @@ class GroupsController extends Controller
             File::deleteDirectory(public_path($directory));
         }
 
-        $group->delete();
+        DB::table('logs')->insert([
+            'name' => 'group',
+            'description' => __('logs.group.deleted', ['name' => $group->group_name, 'date' => $group->created_at]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
+        $group->delete();
 
         return back()->with('success', __('groups.deleted'));
     }
