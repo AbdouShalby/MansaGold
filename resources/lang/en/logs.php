@@ -1,9 +1,11 @@
 <?php
 
 return [
-    'title' => 'السجلات',
-    'empty' => 'لا يوجد سجلات',
+    'title' => 'Logs',
+    'empty' => 'No Logs Found',
     'code' => [
-        'inserted' => 'تم اضافة محفظة رقم :key, خاصة بجروب :group, برصيد :balance, بتاريخ :date.',
+        'inserted' => 'Wallet number :key, added to group :group, with balance :balance, on date :date.',
+        'updated' => 'Wallet number :key, updated in group :group, with balance :balance, on date :date.',
+        'deleted' => 'Wallet number :key, deleted from group :group, with balance :balance, on date :date.',
     ],
 ];

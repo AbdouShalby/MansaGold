@@ -123,7 +123,7 @@ class CodesController extends Controller
 
             DB::table('logs')->insert([
                 'name' => 'code',
-                'description' => __('logs.code.inserted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance, 'date' => $codeData->updated_at]),
+                'description' => __('logs.code.updated', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance, 'date' => $codeData->updated_at]),
                 'created_at' => $code->created_at,
                 'updated_at' => now(),
             ]);
@@ -140,7 +140,20 @@ class CodesController extends Controller
     public function destroy(string $id)
     {
         $code = Code::findOrFail($id);
+
+        $codeData = Code::where('id', $code->id)->first();
+        $groupName = Group::where('id', $codeData->group_id)->first();
+
+        DB::table('logs')->insert([
+            'name' => 'code',
+            'description' => __('logs.code.deleted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance, 'date' => $codeData->created_at]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+
         $code->delete();
-        return back()->with('success', __('code.deleted'));
+
+        return back()->with('success', __('codes.deleted'));
     }
 }
