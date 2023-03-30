@@ -14,9 +14,9 @@
             if(status == 0) {
                 $("#status").html('<span class="badge badge-primary">{{ __('dashboard.recent-groups.status.available') }}</span>');
             } else if(status == 1) {
-                $("#status").html('<span class="badge badge-success">{{ __('dashboard.recent-groups.status.completed') }}</span>');
-            } else if(status == 2) {
                 $("#status").html('<span class="badge badge-warning">{{ __('dashboard.recent-groups.status.manufacturing') }}</span>');
+            } else if(status == 2) {
+                $("#status").html('<span class="badge badge-success">{{ __('dashboard.recent-groups.status.completed') }}</span>');
             } else if(status == 3) {
                 $("#status").html('<span class="badge badge-danger">{{ __('dashboard.recent-groups.status.cancelled') }}</span>');
             }

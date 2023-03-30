@@ -65,7 +65,7 @@ class GroupsController extends Controller
 
         DB::table('logs')->insert([
             'name' => 'group',
-            'description' => __('logs.group.inserted', ['name' => $group->group_name, 'date' => $group->created_at]),
+            'description' => __('logs.group.inserted', ['name' => $group->group_name]),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -121,10 +121,21 @@ class GroupsController extends Controller
             $group_name = $request->group_name;
             $group_max = $request->group_max;
             $group_gain = $request->group_gain;
-            $group_status = $request->group_status;
+            if (($request->group_status - $group->group_status ) != 1 && $group->group_status != 2) {
+                return back()->with('error', __('groups.magnificent-first'));
+            }
+            if($group->group_status == 2)
+            {
+                $group_status = 0;
+            }
+            else
+            {
+                $group_status = $request->group_status;
+            }
+
             $updated_at = Carbon::now();
 
-            if ($group_status == 1) {
+            if ($group_status == 2) {
                 $subGroups = SubscribedGroup::where('group_id', $group->id)->get();
                 foreach ($subGroups as $sub) {
                     UserBalance::query()->where('user_id', $sub->user_id)->update(['balance' => DB::raw('balance + ' . $sub->code_balance)]);
@@ -137,6 +148,13 @@ class GroupsController extends Controller
                     'group_avatar' => $group_avatar,
                     'updated_at' => $updated_at
                 ]);
+
+                DB::table('logs')->insert([
+                    'name' => 'group',
+                    'description' => __('logs.group.updated-money', ['name' => $group->group_name]),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
             } else {
                 DB::table('groups')->where('id', $id)->update([
                     'group_name' => $group_name,
@@ -146,16 +164,16 @@ class GroupsController extends Controller
                     'group_avatar' => $group_avatar,
                     'updated_at' => $updated_at
                 ]);
+
+                DB::table('logs')->insert([
+                    'name' => 'group',
+                    'description' => __('logs.group.updated', ['name' => $group->group_name]),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
             }
 
-            DB::table('logs')->insert([
-                'name' => 'group',
-                'description' => __('logs.group.updated', ['name' => $group->group_name, 'date' => $group->created_at]),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            return back()->with('success', __('groups.added-success'));
+            return back()->with('success', __('groups.updated-success'));
         } else {
             return back();
         }
@@ -176,7 +194,7 @@ class GroupsController extends Controller
 
         DB::table('logs')->insert([
             'name' => 'group',
-            'description' => __('logs.group.deleted', ['name' => $group->group_name, 'date' => $group->created_at]),
+            'description' => __('logs.group.deleted', ['name' => $group->group_name]),
             'created_at' => now(),
             'updated_at' => now(),
         ]);

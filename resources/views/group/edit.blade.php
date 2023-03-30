@@ -13,6 +13,11 @@
                             {{ $message }}
                         </div>
                     @endif
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger mt-1" role="alert">
+                            {{ $message }}
+                        </div>
+                    @endif
                     <div class="card-body">
                         <form action="{{ route('update.group', $group->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
@@ -50,9 +55,8 @@
                                 <label for="{{ __('groups.status.title') }}">{{ __('groups.status.title') }}</label>
                                 <select class="form-control" id="{{ __('groups.status.title') }}" name="group_status" required>
                                     <option {{ $group->group_status == 0 ? 'selected' : '' }} value="0">{{ __('groups.status.available') }}</option>
-                                    <option {{ $group->group_status == 1 ? 'selected' : '' }} value="1">{{ __('groups.status.completed') }}</option>
-                                    <option {{ $group->group_status == 2 ? 'selected' : '' }} value="2">{{ __('groups.status.manufacturing') }}</option>
-                                    <option {{ $group->group_status == 3 ? 'selected' : '' }} value="3">{{ __('groups.status.cancelled') }}</option>
+                                    <option {{ $group->group_status == 1 ? 'selected' : '' }} value="1">{{ __('groups.status.manufacturing') }}</option>
+                                    <option {{ $group->group_status == 2 ? 'selected' : '' }} value="2">{{ __('groups.status.completed') }}</option>
                                 </select>
                                 @error('group_status')
                                     <div class="alert alert-danger col-12 mt-1" role="alert">

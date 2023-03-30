@@ -22,7 +22,7 @@ return [
         'available' => 'متاحة للاستثمار',
         'completed' => 'اكتملت',
         'manufacturing' => 'قيد التصنيع',
-        'cancelled' => 'تم الإلغاء',
+        'cancelled' => 'الغاء',
     ],
     'avatar' => 'صورة المجموعة',
     'created' => 'تاريخ الإنشاء',
@@ -33,6 +33,8 @@ return [
         'update' => 'تحديث',
     ],
     'added-success' => 'تمت إضافة المجموعة بنجاح',
+    'updated-success' => 'تمت تحديث المجموعة بنجاح',
+    'magnificent-first' => 'خطوة مسبقة',
     'deleted' => 'تم حذف المجموعة بنجاح',
     'wrong-id' => 'رقم معرف خاطئ'
 ];

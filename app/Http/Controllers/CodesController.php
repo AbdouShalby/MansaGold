@@ -63,7 +63,7 @@ class CodesController extends Controller
 
         DB::table('logs')->insert([
             'name' => 'code',
-            'description' => __('logs.code.inserted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance, 'date' => $codeData->created_at]),
+            'description' => __('logs.code.inserted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance]),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -123,7 +123,7 @@ class CodesController extends Controller
 
             DB::table('logs')->insert([
                 'name' => 'code',
-                'description' => __('logs.code.updated', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance, 'date' => $codeData->updated_at]),
+                'description' => __('logs.code.updated', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance]),
                 'created_at' => $code->created_at,
                 'updated_at' => now(),
             ]);
@@ -146,7 +146,7 @@ class CodesController extends Controller
 
         DB::table('logs')->insert([
             'name' => 'code',
-            'description' => __('logs.code.deleted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance, 'date' => $codeData->created_at]),
+            'description' => __('logs.code.deleted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance]),
             'created_at' => now(),
             'updated_at' => now(),
         ]);

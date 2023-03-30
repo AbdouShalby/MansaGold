@@ -63,9 +63,9 @@
                                     @if($group->group_status == 0)
                                         <span class="badge badge-primary">{{ __('dashboard.recent-groups.status.available') }}</span>
                                     @elseif($group->group_status == 1)
-                                        <span class="badge badge-success">{{ __('dashboard.recent-groups.status.completed') }}</span>
-                                    @elseif($group->group_status == 2)
                                         <span class="badge badge-warning">{{ __('dashboard.recent-groups.status.manufacturing') }}</span>
+                                    @elseif($group->group_status == 2)
+                                        <span class="badge badge-success">{{ __('dashboard.recent-groups.status.completed') }}</span>
                                     @elseif($group->group_status == 3)
                                         <span class="badge badge-danger">{{ __('dashboard.recent-groups.status.cancelled') }}</span>
                                     @endif

@@ -3,19 +3,28 @@
 return [
     'title' => 'السجلات',
     'empty' => 'لا يوجد سجلات',
+    'table' => [
+        'id' => 'رقم',
+        'name' => 'اسم السجل',
+        'desc' => 'تفاصيل السجل',
+        'created' => 'تاريخ',
+    ],
     'code' => [
-        'inserted' => 'تم اضافة محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance, بتاريخ :date.',
-        'updated' => 'تم تحديث محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance, بتاريخ :date.',
-        'deleted' => 'تم حذف محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance, بتاريخ :date.',
+        'title' => 'الاكواد',
+        'inserted' => 'تم اضافة محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance',
+        'updated' => 'تم تحديث محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance',
+        'deleted' => 'تم حذف محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance',
     ],
     'group' => [
-        'inserted' => 'تم اضافة مجموعة باسم :name بتاريخ :date.',
-        'updated' => 'تم تحديث مجموعة باسم :name بتاريخ :date.',
-        'deleted' => 'تم حذف مجموعة باسم :name بتاريخ :date.',
+        'title' => 'المجموعات',
+        'inserted' => 'تم اضافة مجموعة باسم :name',
+        'updated' => 'تم تحديث مجموعة باسم :name',
+        'deleted' => 'تم حذف مجموعة باسم :name',
     ],
     'user' => [
-        'inserted' => 'تم اضافة مستثمر باسم :name بتاريخ :date.',
-        'updated' => 'تم تحديث مستثمر باسم :name بتاريخ :date.',
-        'deleted' => 'تم حذف مستثمر باسم :name بتاريخ :date.',
+        'title' => 'المستثمرين',
+        'inserted' => 'تم اضافة مستثمر باسم :name',
+        'updated' => 'تم تحديث مستثمر باسم :name',
+        'deleted' => 'تم حذف مستثمر باسم :name',
     ],
 ];

@@ -56,7 +56,7 @@ class HomeController extends Controller
     }
 
     public function logs(Request $request) {
-        $logs = Logs::all();
+        $logs = Logs::paginate(20);
         return view('logs', [
             'logs' => $logs,
         ]);

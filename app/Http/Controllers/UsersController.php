@@ -68,7 +68,7 @@ class UsersController extends Controller
 
         DB::table('logs')->insert([
             'name' => 'user',
-            'description' => __('logs.user.inserted', ['name' => $user->name, 'date' => $user->created_at]),
+            'description' => __('logs.user.inserted', ['name' => $user->name]),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -144,7 +144,7 @@ class UsersController extends Controller
 
             DB::table('logs')->insert([
                 'name' => 'user',
-                'description' => __('logs.user.updated', ['name' => $user->name, 'date' => $user->created_at]),
+                'description' => __('logs.user.updated', ['name' => $user->name]),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -170,7 +170,7 @@ class UsersController extends Controller
 
         DB::table('logs')->insert([
             'name' => 'user',
-            'description' => __('logs.user.deleted', ['name' => $user->name, 'date' => $user->created_at]),
+            'description' => __('logs.user.deleted', ['name' => $user->name]),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
