@@ -66,6 +66,13 @@ class UsersController extends Controller
         $user->updated_at = Carbon::now();
         $user->save();
 
+        DB::table('logs')->insert([
+            'name' => 'user',
+            'description' => __('logs.user.inserted', ['name' => $user->name, 'date' => $user->created_at]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         return back()->with('success', __('users.added-success'));
     }
 
@@ -135,6 +142,13 @@ class UsersController extends Controller
                 'updated_at' => $updated_at,
             ]);
 
+            DB::table('logs')->insert([
+                'name' => 'user',
+                'description' => __('logs.user.updated', ['name' => $user->name, 'date' => $user->created_at]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
             return back()->with('success', __('users.updated-success'));
         } else {
             return back();
@@ -153,6 +167,13 @@ class UsersController extends Controller
             File::exists($directory);
             File::deleteDirectory(public_path($directory));
         }
+
+        DB::table('logs')->insert([
+            'name' => 'user',
+            'description' => __('logs.user.deleted', ['name' => $user->name, 'date' => $user->created_at]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         $user->delete();
 

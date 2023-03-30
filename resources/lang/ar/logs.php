@@ -13,4 +13,9 @@ return [
         'updated' => 'تم تحديث مجموعة باسم :name بتاريخ :date.',
         'deleted' => 'تم حذف مجموعة باسم :name بتاريخ :date.',
     ],
+    'user' => [
+        'inserted' => 'تم اضافة مستثمر باسم :name بتاريخ :date.',
+        'updated' => 'تم تحديث مستثمر باسم :name بتاريخ :date.',
+        'deleted' => 'تم حذف مستثمر باسم :name بتاريخ :date.',
+    ],
 ];

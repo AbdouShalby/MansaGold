@@ -1,16 +1,21 @@
 <?php
 
 return [
-    'title' => 'Logs',
-    'empty' => 'No Logs Found',
+    'title' => 'السجلات',
+    'empty' => 'لا يوجد سجلات',
     'code' => [
-        'inserted' => 'Wallet number :key, added to group :group, with balance :balance, on date :date.',
-        'updated' => 'Wallet number :key, updated in group :group, with balance :balance, on date :date.',
-        'deleted' => 'Wallet number :key, deleted from group :group, with balance :balance, on date :date.',
+        'inserted' => 'تم اضافة محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance, بتاريخ :date.',
+        'updated' => 'تم تحديث محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance, بتاريخ :date.',
+        'deleted' => 'تم حذف محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance, بتاريخ :date.',
     ],
     'group' => [
-        'inserted' => 'Group with name :name added on date :date.',
-        'updated' => 'Group with name :name updated on date :date.',
-        'deleted' => 'Group with name :name deleted on date :date.',
+        'inserted' => 'تم اضافة مجموعة باسم :name بتاريخ :date.',
+        'updated' => 'تم تحديث مجموعة باسم :name بتاريخ :date.',
+        'deleted' => 'تم حذف مجموعة باسم :name بتاريخ :date.',
+    ],
+    'user' => [
+        'inserted' => 'تم اضافة مستثمر باسم :name بتاريخ :date.',
+        'updated' => 'تم تحديث مستثمر باسم :name بتاريخ :date.',
+        'deleted' => 'تم حذف مستثمر باسم :name بتاريخ :date.',
     ],
 ];
