@@ -20,9 +20,9 @@ class WithdrawsController extends Controller
 
             if (!empty($user)) {
                 $userBalance = UserBalance::where('user_id', $user->id)->first();
-                if ($userBalance >= $amount) {
+                if ($userBalance->balance >= $amount) {
                     DB::table('user_balances')->where('user_id', $user->id)->decrement('balance', $amount);
-                    DB::table('withdraw')->insert([
+                    $withdrawID = DB::table('withdraw')->insertGetId([
                         'user_id' => $user->id,
                         'amount' => $amount,
                         'status' => 0,
@@ -33,6 +33,7 @@ class WithdrawsController extends Controller
                     $response['success'] = 'Success';
                     $response['message'] = 'Sucessfully';
                     $response['status'] = 'Pending';
+                    $response['withdraw ID'] = $withdrawID;
                 } else {
                     $response['success'] = 'Failed';
                     $response['message'] = 'No Enough Balance';
