@@ -108,6 +108,12 @@
                         </div>
                     </ul>
                 </li>
+                <li class="has-sub expand {{ isset($pageTitle) && $pageTitle == 'withdraws' ? 'active' : '' }}">
+                    <a class="sidenav-item-link" href="{{ route('withdraws') }}">
+                        <i class="mdi mdi-credit-card-multiple"></i>
+                        <span class="nav-text">{{ __('sidebar.withdraws') }}</span>
+                    </a>
+                </li>
                 <li class="has-sub expand {{ isset($pageTitle) && $pageTitle == 'logs' ? 'active' : '' }}">
                     <a class="sidenav-item-link" href="{{ route('logs') }}">
                         <i class="mdi mdi-book-open-page-variant"></i>

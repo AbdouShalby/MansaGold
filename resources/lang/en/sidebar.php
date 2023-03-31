@@ -5,4 +5,5 @@ return [
         'title' => 'Dashboard',
     ],
     'logs' => 'Logs',
+    'withdraws' => 'Withdraws',
 ];

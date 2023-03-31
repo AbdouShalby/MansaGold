@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('amount');
+            $table->float('amount');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
 

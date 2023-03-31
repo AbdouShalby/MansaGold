@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Logs;
 use App\Models\User;
+use App\Models\UserBalance;
+use App\Models\Withdraw;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -60,5 +63,27 @@ class HomeController extends Controller
         return view('logs', [
             'logs' => $logs,
         ]);
+    }
+
+    public function withdraws(Request $request) {
+        $withdraws = Withdraw::paginate(20);
+        $users = User::all();
+        return view('withdraws', [
+            'withdraws' => $withdraws,
+            'users' => $users,
+        ]);
+    }
+
+    public function withdrawApprove(Request $request, $id) {
+        Withdraw::where('id', $id)->update(['status' => 1]);
+        return back();
+    }
+
+    public function withdrawCancel(Request $request, $id) {
+        $withdraw = Withdraw::where('id', $id)->first();
+        UserBalance::where('user_id', $withdraw->user_id)
+            ->update(['balance' => DB::raw('balance + ' . $withdraw->amount)]);
+        $withdraw->update(['status' => 2]);
+        return back();
     }
 }

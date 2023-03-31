@@ -65,6 +65,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('logs', [HomeController::class, 'logs'])->name('logs');
 
+    Route::get('withdraws', [HomeController::class, 'withdraws'])->name('withdraws');
+    Route::get('withdraws/approve/{id}', [HomeController::class, 'withdrawApprove'])->name('withdraw-approve');
+    Route::get('withdraws/cancel/{id}', [HomeController::class, 'withdrawCancel'])->name('withdraw-cancel');
+
     Route::get('locale/{locale}',function($locale){
         Session::put('locale',$locale);
         return redirect()->back();
