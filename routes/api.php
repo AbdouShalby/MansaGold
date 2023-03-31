@@ -36,3 +36,4 @@ Route::post('video', [VideosController::class, 'getVideo'])->name('get-video');
 
 // Withdraws Controllers
 Route::post('withdraw', [WithdrawsController::class, 'withdraw'])->name('withdraw');
+Route::post('withdraw/check', [WithdrawsController::class, 'withdrawCheck'])->name('withdraw-check');
