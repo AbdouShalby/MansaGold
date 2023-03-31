@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CodesController;
 use App\Http\Controllers\API\GroupsController;
 use App\Http\Controllers\API\UsersController;
+use App\Http\Controllers\API\VideosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,3 +29,6 @@ Route::post('groups/my', [GroupsController::class, 'myGroups'])->name('my-groups
 
 // Codes Controllers
 Route::post('codes/check', [CodesController::class, 'check'])->name('code-check');
+
+// Videos Controllers
+Route::post('video', [VideosController::class, 'getVideo'])->name('get-video');

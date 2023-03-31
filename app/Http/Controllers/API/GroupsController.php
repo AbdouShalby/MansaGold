@@ -54,10 +54,9 @@ class GroupsController extends Controller
                     ->join('groups', 'subscribed_groups.group_id', '=', 'groups.id')
                     ->get();
                 $totalBalance = 0;
+                $groupsData = [];
                 foreach ($myGroups as $group) {
                     $totalBalance += $group->code_balance;
-                }
-                foreach ($myGroups as $group) {
                     $groupsData = Group::where('id', $group->group_id)->get();
                 }
                 $groupsArray = $myGroups->toArray();

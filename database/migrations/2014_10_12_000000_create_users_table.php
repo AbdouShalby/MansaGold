@@ -25,6 +25,10 @@ return new class extends Migration
             $table->rememberToken()->nullable();
             $table->timestamps();
         });
+
+        DB::table('users')->insert([
+            ['name' => 'Admin', 'email' => 'mansa@admin.com', 'password' => md5('secret'), 'token' => 'mansaadmin', 'status' => '1', 'role' => '1', 'created_at' => now(), 'updated_at' => now()],
+        ]);
     }
 
     /**
