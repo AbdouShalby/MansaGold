@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CodesController;
 use App\Http\Controllers\API\GroupsController;
 use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\VideosController;
+use App\Http\Controllers\API\WithdrawsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,3 +33,6 @@ Route::post('codes/check', [CodesController::class, 'check'])->name('code-check'
 
 // Videos Controllers
 Route::post('video', [VideosController::class, 'getVideo'])->name('get-video');
+
+// Withdraws Controllers
+Route::post('withdraw', [WithdrawsController::class, 'withdraw'])->name('withdraw');
