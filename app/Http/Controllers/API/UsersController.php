@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserBalance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -16,10 +17,12 @@ class UsersController extends Controller
 
         if (!empty($token)) {
             $user = User::where('token', $token)->first();
+            $balance = UserBalance::where('user_id', $user->id)->first();
             if (!empty($user)) {
                 $response['success'] = 'Success';
                 $response['message'] = 'User Data';
                 $response['user'] = $user;
+                $response['balance'] = $balance->balance;
             } else {
                 $response['faild'] = 'Faild';
                 $response['message'] = 'Wrong Token';
@@ -81,7 +84,7 @@ class UsersController extends Controller
                         } else {
                             // Insert the user data into the database
                             $id = DB::table('users')->insertGetId(['email' => $email]);
-                            DB::table('user_balance')->insert(['user_id' => $id, 'balance' => 0]);
+                            DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                             // Get the user information from the inserted row
                             $user = User::where('id', $id)->first();
@@ -106,7 +109,7 @@ class UsersController extends Controller
                         } else {
                             // Insert the user data into the database
                             $id = DB::table('users')->insertGetId(['phone' => $phone]);
-                            DB::table('user_balance')->insert(['user_id' => $id, 'balance' => 0]);
+                            DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                             // Get the user information from the inserted row
                             $user = User::where('id', $id)->first();
@@ -143,11 +146,10 @@ class UsersController extends Controller
             if (empty($checkExist)) {
                 $hashPassword = md5($password);
 
-                DB::table('users')->insert(['email' => $email, 'password' => $hashPassword]);
+                $id = DB::table('users')->insertGetId(['email' => $email, 'password' => $hashPassword]);
+                DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                 $user = User::where('email', $email)->where('password', $hashPassword)->first();
-
-                DB::table('user_balance')->insert(['user_id' => $user->id, 'balance' => 0]);
 
                 $registredUser = $user->toArray();
                 $registredUser['token'] = $this->adduseraccess($registredUser['id']);
