@@ -66,6 +66,8 @@ class UsersController extends Controller
         $user->updated_at = Carbon::now();
         $user->save();
 
+        DB::table('user_balances')->insert(['user_id' => $user->id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
+
         DB::table('logs')->insert([
             'name' => 'user',
             'description' => __('logs.user.inserted', ['name' => $user->name]),
