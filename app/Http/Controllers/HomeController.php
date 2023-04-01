@@ -59,14 +59,14 @@ class HomeController extends Controller
     }
 
     public function logs(Request $request) {
-        $logs = Logs::paginate(20);
+        $logs = Logs::orderByDesc('id')->paginate(20);
         return view('logs', [
             'logs' => $logs,
         ]);
     }
 
     public function withdraws(Request $request) {
-        $withdraws = Withdraw::paginate(20);
+        $withdraws = Withdraw::orderByDesc('id')->paginate(20);
         $users = User::all();
         return view('withdraws', [
             'withdraws' => $withdraws,

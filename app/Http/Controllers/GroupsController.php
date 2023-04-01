@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\SubscribedGroup;
+use App\Models\User;
 use App\Models\UserBalance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -202,5 +203,15 @@ class GroupsController extends Controller
         $group->delete();
 
         return back()->with('success', __('groups.deleted'));
+    }
+
+    public function investor($id)
+    {
+        $investors = SubscribedGroup::where('group_id', $id)->orderByDesc('id')->paginate(20);
+        $users = User::all();
+        return view('group/investor', [
+            'investors' => $investors,
+            'users' => $users,
+        ]);
     }
 }

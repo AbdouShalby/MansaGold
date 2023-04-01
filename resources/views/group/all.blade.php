@@ -2,7 +2,9 @@
 @extends('layouts.app')
 @section('content')
     <script>
-        function ShowThis(name, current, max, status, avatar, gain, created, updated) {
+        function ShowThis(id, name, current, max, status, avatar, gain, created, updated) {
+            const url = "{{ route('investor.group', ['id' => ':id']) }}".replace(':id', id);
+            $("#show-inv").html('<a href="'+url+'" class="mb-1 btn btn-sm btn-success">{{ __('groups.show-inv') }}</a>');
             $("#name").text(base64_decode(name));
             $("#current").html('<p>{{ __('groups.current') }}</p> <h6 class="text-dark pb-2">' + current + ' {{ __('groups.gm') }}</h6>');
             $("#max").html('<p>{{ __('groups.max') }}</p> <h6 class="text-dark pb-2">' + max + ' {{ __('groups.gm') }}</h6>');
@@ -45,7 +47,7 @@
                 <div class="card card-default mt-6 mb-4">
                     <div class="card-body text-center p-4">
                         <a href="javascript:;"
-                            onclick="ShowThis('{{ base64_encode($group->group_name) }}','{{ $group->current_subscription }}','{{ $group->group_max_subscription }}','{{ $group->group_status }}','{{ base64_encode($group->group_avatar) }}','{{ $group->group_gain }}','{{ $group->created_at }}','{{ $group->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
+                            onclick="ShowThis('{{ $group->id }}','{{ base64_encode($group->group_name) }}','{{ $group->current_subscription }}','{{ $group->group_max_subscription }}','{{ $group->group_status }}','{{ base64_encode($group->group_avatar) }}','{{ $group->group_gain }}','{{ $group->created_at }}','{{ $group->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
 
                             <div class="image mb-3 mt-n9">
                                 @if($group->group_avatar != null)
@@ -129,6 +131,9 @@
                                 <p id="created"></p>
                                 <p class="text-dark font-weight-medium pt-4 mb-2">{{ __('groups.updated') }}</p>
                                 <p id="updated"></p>
+
+                                <div class="mt-5 text-center" id="show-inv">
+                                </div>
                             </div>
                         </div>
                     </div>

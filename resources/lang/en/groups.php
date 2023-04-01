@@ -8,6 +8,12 @@ return [
         'edit' => 'Edit Group',
         'show' => 'Show Group',
     ],
+    'table' => [
+        'id' => 'ID',
+        'name' => 'Investor Name',
+        'balance' => 'Balance',
+        'created' => 'Date',
+    ],
     'name' => 'Group Name',
     'current' => 'Current Subscription',
     'max' => 'Max Subscription',
@@ -27,6 +33,8 @@ return [
     'avatar' => 'Group Avatar',
     'created' => 'Created At',
     'updated' => 'Last Update At',
+    'show-inv' => 'Investor Show',
+    'no-inv' => 'No Investor',
     'buttons' => [
         'create' => 'Create',
         'save' => 'Save',

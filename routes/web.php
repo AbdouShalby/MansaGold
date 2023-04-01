@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('group/edit/{id}', [GroupsController::class, 'edit'])->name('edit.group');
     Route::post('group/update/{id}', [GroupsController::class, 'update'])->name('update.group');
     Route::get('group/delete/{id}', [GroupsController::class, 'destroy'])->name('delete.group');
+    Route::get('group/investor/{id}', [GroupsController::class, 'investor'])->name('investor.group');
 
     // Users
     Route::get('users', [UsersController::class, 'index'])->name('all.users');
