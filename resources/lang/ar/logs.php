@@ -14,6 +14,7 @@ return [
         'inserted' => 'تم اضافة محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance',
         'updated' => 'تم تحديث محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance',
         'deleted' => 'تم حذف محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance',
+        'used' => 'تم استخدام محفظة رقم :key, خاصة بمجموعة :group, برصيد :balance عن طريق المستثر :user',
     ],
     'group' => [
         'title' => 'المجموعات',
