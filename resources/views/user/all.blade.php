@@ -2,7 +2,7 @@
 @extends('layouts.app')
 @section('content')
     <script>
-        function ShowThis(name, email, phone, country, status, user_avatar, role, created, updated) {
+        function ShowThis(name, email, phone, country, status, user_avatar, role, group, amount, created, updated) {
             $("#name").text(base64_decode(name));
 
             if(email !== '') {
@@ -66,7 +66,7 @@
                 <div class="card card-default mt-6 mb-4">
                     <div class="card-body text-center p-4">
                         <a href="javascript:;"
-                            onclick="ShowThis('{{ base64_encode($user->name) }}','{{ $user->email }}','{{ $user->phone }}','{{ $user->country }}','{{ $user->status }}','{{ base64_encode($user->user_avatar) }}','{{ $user->role }}','{{ $user->created_at }}','{{ $user->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
+                            onclick="ShowThis('{{ base64_encode($user->name) }}','{{ $user->email }}','{{ $user->phone }}','{{ $user->country }}','{{ $user->status }}','{{ base64_encode($user->user_avatar) }}','{{ $user->role }}','{{ $user->group }}','{{ $user->amount }}','{{ $user->created_at }}','{{ $user->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
 
                             <div class="image mb-3 mt-n9">
                                 @if($user->user_avatar != null)

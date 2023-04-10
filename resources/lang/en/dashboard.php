@@ -3,6 +3,7 @@
 return [
     'total-users' => 'Total Users',
     'total-groups' => 'Total Groups',
+    'total-groups-completed' => 'Total Completed Groups',
     'total-invest' => 'Total Investments',
     'recent-groups' => [
         'title' => 'Recent Groups',

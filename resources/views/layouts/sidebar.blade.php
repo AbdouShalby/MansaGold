@@ -18,6 +18,16 @@
 
             <!-- sidebar menu -->
             <ul class="nav sidebar-inner" id="sidebar-menu">
+                <li class="search-form d-inline-block d-lg-none">
+                    <form class="form-inline" method="POST" action="{{ route('search') }}" id="search-form">
+                        @csrf
+                        <input type="search" name="search" id="search-input" class="form-control w-75"
+                               placeholder="{{ __('navbar.search-now') }}" autofocus autocomplete="off" />
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat" onclick="document.getElementById('search-form').submit();">
+                            <i class="mdi mdi-magnify"></i>
+                        </button>
+                    </form>
+                </li>
                 <li class="has-sub expand {{ isset($pageTitle) && $pageTitle == 'dashboard' ? 'active' : '' }}">
                     <a class="sidenav-item-link" href="{{ route('home') }}">
                         <i class="mdi mdi-view-dashboard-outline"></i>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Code;
+use App\Models\SubscribedGroup;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class UsersController extends Controller
     {
         $users = User::all()->sortDesc();
         return view('user/all', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 

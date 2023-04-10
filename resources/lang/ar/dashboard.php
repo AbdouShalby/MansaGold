@@ -3,6 +3,7 @@
 return [
     'total-users' => 'إجمالي المستثمرين',
     'total-groups' => 'إجمالي المجموعات',
+    'total-groups-completed' => 'إجمالي عمليات التصنيع',
     'total-invest' => 'إجمالي الاستثمارات',
     'recent-groups' => [
         'title' => 'المجموعات الحديثة',

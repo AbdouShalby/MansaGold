@@ -53,18 +53,23 @@ class GroupsController extends Controller
                     ->where('user_id', $user->id)
                     ->join('groups', 'subscribed_groups.group_id', '=', 'groups.id')
                     ->get();
-                $totalBalance = 0;
-                $groupsData = [];
-                foreach ($myGroups as $group) {
-                    $totalBalance += $group->code_balance;
-                    $groupsData = Group::where('id', $group->group_id)->get();
+                if (!empty($myGroups) && count($myGroups) > 0) {
+                    $totalBalance = 0;
+                    $groupsData = [];
+                    foreach ($myGroups as $group) {
+                        $totalBalance += $group->code_balance;
+                        $groupsData = Group::where('id', $group->group_id)->get();
+                    }
+                    $groupsArray = $myGroups->toArray();
+                    $response['success'] = 'Success';
+                    $response['message'] = 'Groups';
+                    $response['totalBalance'] = $totalBalance;
+                    $response['myGroups'] = $groupsArray;
+                    $response['myGroupsData'] = $groupsData;
+                } else {
+                    $response['success'] = 'Failed';
+                    $response['message'] = 'No Groups';
                 }
-                $groupsArray = $myGroups->toArray();
-                $response['success'] = 'Success';
-                $response['message'] = 'Groups';
-                $response['totalBalance'] = $totalBalance;
-                $response['myGroups'] = $groupsArray;
-                $response['myGroupsData'] = $groupsData;
             } else {
                 $response['success'] = 'Failed';
                 $response['message'] = 'Wrong Token';

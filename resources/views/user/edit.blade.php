@@ -44,11 +44,13 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-xl-8">
-
                     <div class="profile-content-right py-5">
                         <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
                             </li>
                         </ul>
                         @if ($message = Session::get('success'))

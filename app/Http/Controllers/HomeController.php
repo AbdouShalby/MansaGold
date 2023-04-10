@@ -31,13 +31,15 @@ class HomeController extends Controller
     public function index()
     {
         $latestGroups = Group::latest('created_at')->take(5)->get();
-        $countOfUsers = count(User::all());
-        $countOfGroups = count(Group::all());
+        $countOfUsers = User::all()->count();
+        $countOfGroups = Group::all()->count();
+        $countOfGroupsCompleted = Group::where('group_status', 2)->count();
         $countOfInvest = Group::pluck('current_subscription')->sum();
         return view('home', [
             'latestGroups' => $latestGroups,
             'totalUsers' => $countOfUsers,
             'totalGroups' => $countOfGroups,
+            'countOfGroupsCompleted' => $countOfGroupsCompleted,
             'totalInvest' => $countOfInvest
         ]);
     }

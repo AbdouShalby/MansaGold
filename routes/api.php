@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BannersController;
 use App\Http\Controllers\API\CodesController;
 use App\Http\Controllers\API\GroupsController;
 use App\Http\Controllers\API\UsersController;
@@ -33,6 +34,9 @@ Route::post('codes/check', [CodesController::class, 'check'])->name('code-check'
 
 // Videos Controllers
 Route::post('video', [VideosController::class, 'getVideo'])->name('get-video');
+
+// Banners Controllers
+Route::post('banners', [BannersController::class, 'getBanners'])->name('get-banners');
 
 // Withdraws Controllers
 Route::post('withdraw', [WithdrawsController::class, 'withdraw'])->name('withdraw');

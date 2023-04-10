@@ -4,7 +4,7 @@
     <div class="content">
         <!-- Top Statistics -->
         <div class="row">
-            <div class="col-md-6 col-lg-6 col-xl-4">
+            <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="card widget-block p-4 rounded bg-primary border">
                     <div class="card-block">
                         <i class="mdi mdi-account mr-4 text-white"></i><a href="{{ route('all.users') }}"><i class="mdi mdi-eye float-right text-white p-2 border"></i></a>
@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 col-xl-4">
+            <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="card widget-block p-4 rounded bg-danger border">
                     <div class="card-block">
                         <i class="mdi mdi-folder-multiple-outline mr-4 text-white"></i><a href="{{ route('all.groups') }}"><i class="mdi mdi-eye float-right text-white p-2 border"></i></a>
@@ -22,8 +22,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6 col-xl-4">
+            <div class="col-md-6 col-lg-6 col-xl-3">
                 <div class="card widget-block p-4 rounded bg-success border">
+                    <div class="card-block">
+                        <i class="mdi mdi-checkbox-marked-circle mr-4 text-white"></i>
+                        <h4 class="text-white my-2">{{ $countOfGroupsCompleted }}</h4>
+                        <p>{{ __('dashboard.total-groups-completed') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="card widget-block p-4 rounded bg-dark border">
                     <div class="card-block">
                         <i class="mdi mdi-arrow-top-right mr-4 text-white"></i>
                         <h4 class="text-white my-2">{{ $totalInvest }}</h4>

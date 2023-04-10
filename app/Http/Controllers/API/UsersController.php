@@ -83,7 +83,7 @@ class UsersController extends Controller
                             $response['user'] = $loggedUser;
                         } else {
                             // Insert the user data into the database
-                            $id = DB::table('users')->insertGetId(['email' => $email]);
+                            $id = DB::table('users')->insertGetId(['email' => $email, 'created_at' => now(), 'updated_at' => now()]);
                             DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                             // Get the user information from the inserted row
@@ -108,7 +108,7 @@ class UsersController extends Controller
                             $response['user'] = $loggedUser;
                         } else {
                             // Insert the user data into the database
-                            $id = DB::table('users')->insertGetId(['phone' => $phone]);
+                            $id = DB::table('users')->insertGetId(['phone' => $phone, 'created_at' => now(), 'updated_at' => now()]);
                             DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                             // Get the user information from the inserted row
@@ -146,7 +146,7 @@ class UsersController extends Controller
             if (empty($checkExist)) {
                 $hashPassword = md5($password);
 
-                $id = DB::table('users')->insertGetId(['email' => $email, 'password' => $hashPassword]);
+                $id = DB::table('users')->insertGetId(['email' => $email, 'password' => $hashPassword, 'created_at' => now(), 'updated_at' => now()]);
                 DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                 $user = User::where('email', $email)->where('password', $hashPassword)->first();
