@@ -58,7 +58,12 @@ class GroupsController extends Controller
                     $groupsData = [];
                     foreach ($myGroups as $group) {
                         $totalBalance += $group->code_balance;
-                        $groupsData = Group::where('id', $group->group_id)->get();
+                        $groupData = Group::where('id', $group->group_id)->get()->toArray();
+                        // fetch users for the current group
+                        $users = User::select('users.*')->join('subscribed_groups', 'subscribed_groups.user_id', '=', 'users.id')->where('subscribed_groups.group_id', $group->group_id)->get()->toArray();
+                        // add users data to the group data
+                        $groupData[0]['users'] = $users;
+                        $groupsData[] = $groupData[0];
                     }
                     $groupsArray = $myGroups->toArray();
                     $response['success'] = 'Success';
