@@ -8,7 +8,6 @@ use App\Models\UserBalance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Kreait\Firebase\Contract\Storage;
 
 class UsersController extends Controller
 {
@@ -17,16 +16,20 @@ class UsersController extends Controller
 
         if (!empty($token)) {
             $user = User::where('token', $token)->first();
-            $balance = UserBalance::where('user_id', $user->id)->first();
             if (!empty($user)) {
+                $balance = UserBalance::where('user_id', $user->id)->first();
                 $response['success'] = 'Success';
                 $response['message'] = 'User Data';
                 $response['user'] = $user;
                 $response['balance'] = $balance->balance;
+                $response['totalGain'] = $balance->total_get;
             } else {
                 $response['faild'] = 'Faild';
                 $response['message'] = 'Wrong Token';
             }
+        } else {
+            $response['faild'] = 'Faild';
+            $response['message'] = 'Wrong Token';
         }
         return response()->json($response);
     }
@@ -49,7 +52,7 @@ class UsersController extends Controller
                         $loggedUser = $user->toArray();
                         $loggedUser['token'] = $this->adduseraccess($loggedUser['id']);
                         $response['success'] = 'Success';
-                        $response['message'] = 'Login Sucessfully';
+                        $response['message'] = 'Login Successfully';
                         $response['user'] = $loggedUser;
 
                     } else {
@@ -79,12 +82,12 @@ class UsersController extends Controller
                             $loggedUser = $user->toArray();
                             $loggedUser['token'] = $this->adduseraccess($loggedUser['id']);
                             $response['success'] = 'Success';
-                            $response['message'] = 'Login Sucessfully';
+                            $response['message'] = 'Login Successfully';
                             $response['user'] = $loggedUser;
                         } else {
                             // Insert the user data into the database
                             $id = DB::table('users')->insertGetId(['email' => $email, 'created_at' => now(), 'updated_at' => now()]);
-                            DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
+                            DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'total_get' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                             // Get the user information from the inserted row
                             $user = User::where('id', $id)->first();
@@ -92,7 +95,7 @@ class UsersController extends Controller
                             $loggedUser = $user->toArray();
                             $loggedUser['token'] = $this->adduseraccess($loggedUser['id']);
                             $response['success'] = 'Success';
-                            $response['message'] = 'Login Sucessfully';
+                            $response['message'] = 'Login Successfully';
                             $response['user'] = $loggedUser;
                             $response['registred'] = true;
                         }
@@ -104,12 +107,12 @@ class UsersController extends Controller
                             $loggedUser = $user->toArray();
                             $loggedUser['token'] = $this->adduseraccess($loggedUser['id']);
                             $response['success'] = 'Success';
-                            $response['message'] = 'Login Sucessfully';
+                            $response['message'] = 'Login Successfully';
                             $response['user'] = $loggedUser;
                         } else {
                             // Insert the user data into the database
                             $id = DB::table('users')->insertGetId(['phone' => $phone, 'created_at' => now(), 'updated_at' => now()]);
-                            DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
+                            DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'total_get' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                             // Get the user information from the inserted row
                             $user = User::where('id', $id)->first();
@@ -117,7 +120,7 @@ class UsersController extends Controller
                             $loggedUser = $user->toArray();
                             $loggedUser['token'] = $this->adduseraccess($loggedUser['id']);
                             $response['success'] = 'Success';
-                            $response['message'] = 'Login Sucessfully';
+                            $response['message'] = 'Login Successfully';
                             $response['user'] = $loggedUser;
                             $response['registred'] = true;
                         }
@@ -147,7 +150,7 @@ class UsersController extends Controller
                 $hashPassword = md5($password);
 
                 $id = DB::table('users')->insertGetId(['email' => $email, 'password' => $hashPassword, 'created_at' => now(), 'updated_at' => now()]);
-                DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'created_at' => now(), 'updated_at' => now()]);
+                DB::table('user_balances')->insert(['user_id' => $id, 'balance' => 0, 'total_get' => 0, 'created_at' => now(), 'updated_at' => now()]);
 
                 $user = User::where('email', $email)->where('password', $hashPassword)->first();
 
@@ -172,6 +175,7 @@ class UsersController extends Controller
         $token = $request->get('token');
         $name = $request->get('name');
         $country = $request->get('country');
+        $country_name = $request->get('country_name');
         $userAvatar = $request->file('user_avatar');
 
         if(!empty($token)) {
@@ -180,6 +184,9 @@ class UsersController extends Controller
                 DB::table('users')->where('token', $token)->update(['name' => $name]);
                 if (!empty($country)) {
                     DB::table('users')->where('token', $token)->update(['country' => $country]);
+                }
+                if (!empty($country_name)) {
+                    DB::table('users')->where('token', $token)->update(['country_name' => $country_name]);
                 }
                 if (!empty($userAvatar)) {
                     if (File::exists($user->user_avatar)) {
@@ -190,7 +197,7 @@ class UsersController extends Controller
 
                     if (in_array($extension, $allowedExtensions)) {
                         $path = $userAvatar->move(public_path(). '/avatars/users', $token . '.jpg');
-                        $trimmedPath = str_replace(public_path(), env('APP_URL'), $path);
+                        $trimmedPath = str_replace(public_path(), "", $path);
                         DB::table('users')->where('token', $token)->update(['user_avatar' => $trimmedPath]);
                     } else {
                         $response['Faild'] = false;
@@ -201,6 +208,9 @@ class UsersController extends Controller
                 $response['message'] = 'User Updated Sucessfully';
             } elseif (!empty($user) && !empty($country)){
                 DB::table('users')->where('token', $token)->update(['country' => $country]);
+                if (!empty($country_name)) {
+                    DB::table('users')->where('token', $token)->update(['country_name' => $country_name]);
+                }
                 if (!empty($userAvatar)) {
                     if (File::exists($user->user_avatar)) {
                         File::delete($user->user_avatar);
@@ -210,7 +220,7 @@ class UsersController extends Controller
 
                     if (in_array($extension, $allowedExtensions)) {
                         $path = $userAvatar->move(public_path(). '/avatars/users', $token . '.jpg');
-                        $trimmedPath = str_replace(public_path(), env('APP_URL'), $path);
+                        $trimmedPath = str_replace(public_path(), "", $path);
                         DB::table('users')->where('token', $token)->update(['user_avatar' => $trimmedPath]);
                     } else {
                         $response['Faild'] = false;
@@ -228,7 +238,7 @@ class UsersController extends Controller
 
                 if (in_array($extension, $allowedExtensions)) {
                     $path = $userAvatar->move(public_path(). '/avatars/users', $token . '.jpg');
-                    $trimmedPath = str_replace(public_path(), env('APP_URL'), $path);
+                    $trimmedPath = str_replace(public_path(), "", $path);
                     DB::table('users')->where('token', $token)->update(['user_avatar' => $trimmedPath]);
 
                     $response['success'] = 'Success';

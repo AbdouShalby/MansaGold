@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Code;
 use App\Models\Group;
 use App\Models\SubscribedGroup;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class GroupsController extends Controller
 {
@@ -24,7 +22,19 @@ class GroupsController extends Controller
 
             if (!empty($user)) {
                 $groups = Group::all();
+                foreach ($groups as $group) {
+                    $subscribed_users = SubscribedGroup::where('group_id', $group->id)->pluck('user_id');
+                    $users = User::whereIn('id', $subscribed_users)->get();
+                    $groupData['users'] = $users;
+                    $groupsData[] = $groupData['users'];
+                }
                 $groupsArray = $groups->toArray();
+
+                // Add $groupsData as a new key to each group in $groupsArray
+                foreach ($groupsArray as $key => $group) {
+                    $groupsArray[$key]['users'] = $groupsData[$key];
+                }
+
                 $response['success'] = 'Success';
                 $response['message'] = 'Groups';
                 $response['groups'] = $groupsArray;
@@ -59,8 +69,12 @@ class GroupsController extends Controller
                     foreach ($myGroups as $group) {
                         $totalBalance += $group->code_balance;
                         $groupData = Group::where('id', $group->group_id)->get()->toArray();
-                        // fetch users for the current group
-                        $users = User::select('users.*')->join('subscribed_groups', 'subscribed_groups.user_id', '=', 'users.id')->where('subscribed_groups.group_id', $group->group_id)->get()->toArray();
+                        // fetch users for the current group and their code_balance
+                        $users = User::select('users.*', 'subscribed_groups.code_balance', 'users.token')
+                            ->join('subscribed_groups', 'subscribed_groups.user_id', '=', 'users.id')
+                            ->where('subscribed_groups.group_id', $group->group_id)
+                            ->get()
+                            ->toArray();
                         // add users data to the group data
                         $groupData[0]['users'] = $users;
                         $groupsData[] = $groupData[0];

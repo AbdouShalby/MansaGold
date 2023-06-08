@@ -4,8 +4,7 @@
     <script>
         function ShowThis(code_key, group_id, code_balance, code_status, used_at, created_at, updated_at) {
             let decoded_key = base64_decode(code_key);
-            let formatted_key = decoded_key.replace(/(.{4})/g, "$1-");
-            formatted_key = formatted_key.slice(0, -1); // remove the last "-" character
+            let formatted_key = decoded_key.replace(/-/g, ""); // remove all "-" characters
             $("#code_key").val(formatted_key);
 
             $("#group_id").text(group_id);
@@ -38,7 +37,64 @@
     </script>
 
     <div class="content">
-        @if(isset($codes) && count($codes) > 0)
+        @if(isset($searchedCodes) && count($searchedCodes) > 0)
+            <div class="row">
+                <div class="search-form w-100">
+                    <div class="input-group w-100">
+                        <form class="form-inline w-100" method="POST" action="{{ route('codes.search') }}" id="search-form">
+                            @csrf
+                            <input type="search" name="search" id="search-input" class="form-control w-75 m-auto"
+                                   placeholder="{{ __('navbar.search-now') }}" autofocus autocomplete="off" />
+                            <button type="submit" id="search-btn" class="btn btn-flat m-auto" onclick="document.getElementById('search-form').submit();">
+                                <i class="mdi mdi-magnify"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @foreach($searchedCodes as $code)
+                    <div class="col-lg-6 col-xl-4 col-xxl-3">
+                        <div class="card card-default mt-6 mb-4">
+                            <div class="card-body text-center p-4">
+                                <a href="javascript:;"
+                                   onclick="ShowThis('{{ base64_encode($code->code_key) }}','{{ $code->group_id }}','{{ $code->code_balance }}','{{ $code->code_status }}','{{ $code->used_at }}','{{ $code->created_at }}','{{ $code->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
+
+                                    <div class="image mb-3 mt-n9">
+                                        <img src="{{ asset('img/code.png') }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
+                                    </div>
+
+                                    <h5 class="card-title text-dark">{{ rtrim(chunk_split($code->code_key, 4, ''), '') }}</h5>
+                                </a>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-4 px-1">
+                                        <a href="{{ route('edit.code', $code->id) }}" class="mb-1 btn btn-pill btn-outline-success"><i class="mdi mdi-square-edit-outline"></i></a>
+                                    </div>
+                                    <div class="col-4 px-1">
+                                        <a href="{{ route('delete.code', $code->id) }}" class="mb-1 btn btn-pill btn-outline-danger"><i class="mdi mdi-delete"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @elseif(isset($codes) && count($codes) > 0)
+        <div class="row">
+            <div class="search-form w-100">
+                <div class="input-group w-100">
+                    <form class="form-inline w-100" method="POST" action="{{ route('codes.search') }}" id="search-form">
+                        @csrf
+                        <input type="search" name="search" id="search-input" class="form-control w-75 m-auto"
+                               placeholder="{{ __('navbar.search-now') }}" autofocus autocomplete="off" />
+                        <button type="submit" id="search-btn" class="btn btn-flat m-auto" onclick="document.getElementById('search-form').submit();">
+                            <i class="mdi mdi-magnify"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="row">
             @if ($message = Session::get('success'))
                 <div class="alert alert-success mt-1 col-12" role="alert">
@@ -56,7 +112,7 @@
                                     <img src="{{ asset('img/code.png') }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
                             </div>
 
-                            <h5 class="card-title text-dark">{{ rtrim(chunk_split($code->code_key, 4, '-'), '-') }}</h5>
+                            <h5 class="card-title text-dark">{{ rtrim(chunk_split($code->code_key, 4, ''), '') }}</h5>
                         </a>
 
                         <div class="row justify-content-center">

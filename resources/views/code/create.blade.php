@@ -13,6 +13,11 @@
                             {{ $message }}
                         </div>
                     @endif
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger mt-1" role="alert">
+                            {{ $message }}
+                        </div>
+                    @endif
                     <div class="card-body">
                         <form action="{{ route('store.code') }}" method="post">
                             @csrf

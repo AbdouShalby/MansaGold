@@ -40,7 +40,68 @@
     </script>
 
     <div class="content">
-        @if(isset($groups) && count($groups) > 0)
+        @if(isset($searchedGroups) && count($searchedGroups) > 0)
+            <div class="row">
+                <div class="search-form w-100">
+                    <div class="input-group w-100">
+                        <form class="form-inline w-100" method="POST" action="{{ route('groups.search') }}" id="search-form">
+                            @csrf
+                            <input type="search" name="search" id="search-input" class="form-control w-75 m-auto"
+                                   placeholder="{{ __('navbar.search-now') }}" autofocus autocomplete="off" />
+                            <button type="submit" id="search-btn" class="btn btn-flat m-auto" onclick="document.getElementById('search-form').submit();">
+                                <i class="mdi mdi-magnify"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @foreach($searchedGroups as $group)
+                    <div class="col-lg-6 col-xl-4 col-xxl-3">
+                        <div class="card card-default mt-6 mb-4">
+                            <div class="card-body text-center p-4">
+                                <a href="javascript:;"
+                                   onclick="ShowThis('{{ $group->id }}','{{ base64_encode($group->group_name) }}','{{ $group->current_subscription }}','{{ $group->group_max_subscription }}','{{ $group->group_status }}','{{ base64_encode($group->group_avatar) }}','{{ $group->group_gain }}','{{ $group->created_at }}','{{ $group->updated_at }}')" data-toggle="modal" data-target="#modal-contact" class="text-secondary d-inline-block mb-3">
+
+                                    <div class="image mb-3 mt-n9">
+                                        @if($group->group_avatar != null)
+                                            <img src="{{ asset($group->group_avatar) }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
+                                        @else
+                                            <img src="{{ asset('img/no-img.png') }}" class="img-fluid rounded-circle" alt="Avatar Image" style="width: 128px">
+                                        @endif
+                                    </div>
+
+                                    <h5 class="card-title text-dark">{{ $group->group_name }}</h5>
+                                </a>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-4 px-1">
+                                        <a href="{{ route('edit.group', $group->id) }}" class="mb-1 btn btn-pill btn-outline-success"><i class="mdi mdi-square-edit-outline"></i></a>
+                                    </div>
+                                    <div class="col-4 px-1">
+                                        <a href="{{ route('delete.group', $group->id) }}" class="mb-1 btn btn-pill btn-outline-danger"><i class="mdi mdi-delete"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @elseif(isset($groups) && count($groups) > 0)
+        <div class="row">
+            <div class="search-form w-100">
+                <div class="input-group w-100">
+                    <form class="form-inline w-100" method="POST" action="{{ route('groups.search') }}" id="search-form">
+                        @csrf
+                        <input type="search" name="search" id="search-input" class="form-control w-75 m-auto"
+                               placeholder="{{ __('navbar.search-now') }}" autofocus autocomplete="off" />
+                        <button type="submit" id="search-btn" class="btn btn-flat m-auto" onclick="document.getElementById('search-form').submit();">
+                            <i class="mdi mdi-magnify"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="row">
             @foreach($groups as $group)
             <div class="col-lg-6 col-xl-4 col-xxl-3">

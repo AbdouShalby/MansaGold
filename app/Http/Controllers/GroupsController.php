@@ -10,11 +10,15 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class GroupsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -138,9 +142,15 @@ class GroupsController extends Controller
 
             if ($group_status == 2) {
                 $subGroups = SubscribedGroup::where('group_id', $group->id)->get();
+                $groupGain = DB::table('groups')->where('id', $group->id)->value('group_gain');
                 foreach ($subGroups as $sub) {
-                    UserBalance::query()->where('user_id', $sub->user_id)->update(['balance' => DB::raw('balance + ' . $sub->code_balance)]);
+                    $totalGet = ($sub->code_balance * $groupGain);
+                    UserBalance::query()->where('user_id', $sub->user_id)->update([
+                        'balance' => DB::raw('balance + ' . $sub->code_balance),
+                        'total_get' => DB::raw('total_get + ' . $totalGet)
+                    ]);
                 }
+
                 DB::table('groups')->where('id', $id)->update([
                     'group_name' => $group_name,
                     'group_max_subscription' => $group_max,

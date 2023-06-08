@@ -32,7 +32,7 @@
                                                     @foreach($users as $user)
                                                         @if($user->id == $inv->user_id)
                                                             @if($user->name != null)
-                                                            {{ $user->name }}
+                                                            <a href="{{ route('edit.user', $user->id) }}">{{ $user->name }}</a>
                                                             @else
                                                             {{ 'No Name' }}
                                                             @endif

@@ -18,6 +18,9 @@
     <!-- SLEEK CSS -->
     <link id="sleek-css" rel="stylesheet" href="{{ asset('css/sleek.css') }}" />
 
+    <!-- SLEEK CSS -->
+    <link id="sleek-css" rel="stylesheet" href="{{ asset('css/custom.css') }}" />
+
     <!-- FAVICON -->
     <link href="{{ asset('img/favicon.png') }}" rel="shortcut icon" />
 
@@ -92,6 +95,19 @@
             </div>
         </div>
     </div>
+    <footer class="login-footer mt-auto">
+        <div class="copyright">
+            <p>
+                &copy; <span id="copy-year">2023</span> {{ __('footer.copy') }} {{ env('APP_NAME') }}, {{ __('footer.dev') }}
+                <a class="text-primary" href="https://msarweb.net/" target="_blank">{{ __('footer.msar') }}</a>.
+            </p>
+        </div>
+        <script>
+            var d = new Date();
+            var year = d.getFullYear();
+            document.getElementById("copy-year").innerHTML = year;
+        </script>
+    </footer>
 </div>
 </body>
 </html>

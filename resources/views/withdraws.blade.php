@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-        </div
+        </div>
         @else
         <div class="row">
             <div class="col-12">

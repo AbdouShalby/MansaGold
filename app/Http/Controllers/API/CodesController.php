@@ -21,7 +21,7 @@ class CodesController extends Controller
             if (!empty($user)) {
                 $checkCode = Code::where('code_key', $code)->first();
                 if (!empty($checkCode)) {
-//                    if ($checkCode->code_status != 1) {
+                    if ($checkCode->code_status != 1) {
                         DB::table('subscribed_groups')->insert([
                             'user_id' => $user->id,
                             'group_id' => $checkCode->group_id,
@@ -45,10 +45,11 @@ class CodesController extends Controller
 
                         $response['success'] = 'Success';
                         $response['message'] = 'Sucessfully';
-//                    } else {
-//                        $response['success'] = 'Failed';
-//                        $response['message'] = 'Code Already Used';
-//                    }
+                        $response['topic'] = $checkCode->group_id;
+                    } else {
+                        $response['success'] = 'Failed';
+                        $response['message'] = 'Code Already Used';
+                    }
                 } else {
                     $response['success'] = 'Failed';
                     $response['message'] = 'Wrong Code';

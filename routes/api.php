@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\API\BannersController;
 use App\Http\Controllers\API\CodesController;
+use App\Http\Controllers\API\GoldPricesController;
 use App\Http\Controllers\API\GroupsController;
+use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\VideosController;
 use App\Http\Controllers\API\WithdrawsController;
+use App\Http\Controllers\GoldPriceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +41,12 @@ Route::post('video', [VideosController::class, 'getVideo'])->name('get-video');
 // Banners Controllers
 Route::post('banners', [BannersController::class, 'getBanners'])->name('get-banners');
 
+// Gold Prices Controllers
+Route::post('gold/prices', [GoldPricesController::class, 'goldPrices'])->name('gold-prices');
+
 // Withdraws Controllers
 Route::post('withdraw', [WithdrawsController::class, 'withdraw'])->name('withdraw');
 Route::post('withdraw/check', [WithdrawsController::class, 'withdrawCheck'])->name('withdraw-check');
+
+// Notifications Controllers
+Route::post('send-notification', [NotificationController::class, 'sendNotification'])->name('sendNotification');

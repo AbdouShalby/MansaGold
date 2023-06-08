@@ -4,7 +4,7 @@
     <div class="content">
         <div class="bg-white border rounded">
             <div class="row no-gutters">
-                <div class="col-lg-4 col-xl-4">
+                <div class="col-lg-4 col-xl-3">
                     <div class="profile-content-left pt-5 pb-3 px-3 px-xl-5">
                         <div class="card text-center widget-profile px-0 border-0">
                             <div class="card-img mx-auto w-100">
@@ -27,7 +27,7 @@
                             <p class="text-dark font-weight-medium pt-4 mb-2">{{ __('users.phone') }}</p>
                             <p>{{ $user->phone }}</p>
                             <p class="text-dark font-weight-medium pt-4 mb-2">{{ __('users.country') }}</p>
-                            <p>{{ $user->country }}</p>
+                            <p>{{ $user->country_name }}</p>
                             <p class="text-dark font-weight-medium pt-4 mb-2">{{ __('users.status') }}</p>
                             @if($user->status == 0)
                                 <p>{{ __('users.no-groups-to-see') }}</p>
@@ -43,14 +43,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8 col-xl-8">
+                <div class="col-lg-8 col-xl-9">
                     <div class="profile-content-right py-5">
                         <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">{{ __('users.profile') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+                                <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">{{ __('users.settings') }}</a>
                             </li>
                         </ul>
                         @if ($message = Session::get('success'))
@@ -59,13 +59,150 @@
                             </div>
                         @endif
                         <div class="tab-content px-3 px-xl-5" id="myTabContent">
-                            <div class="tab-pane fade show active" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="mt-5">
+                                    <div class="row">
+                                        <div class="col-xl-3">
+                                            <div class="media widget-media p-4 bg-white border">
+                                                <div class="icon rounded-circle mr-4 bg-danger">
+                                                    <i class="mdi mdi-account-group text-white "></i>
+                                                </div>
+                                                <div class="media-body align-self-center">
+                                                    <h4 class="text-primary mb-2">{{ $count_sub_groups }}</h4>
+                                                    <p>{{ __('users.sub-groups.title') }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="media widget-media p-4 bg-white border">
+                                                <div class="icon rounded-circle bg-primary mr-4">
+                                                    <i class="mdi mdi-arrow-top-right text-white "></i>
+                                                </div>
+                                                <div class="media-body align-self-center">
+                                                    <h4 class="text-primary mb-2">{{ $totalActiveInvest }}</h4>
+                                                    <p>{{ __('users.active-invest') }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="media widget-media p-4 bg-white border">
+                                                <div class="icon rounded-circle bg-dark mr-4">
+                                                    <i class="mdi mdi-arrow-top-right text-white "></i>
+                                                </div>
+                                                <div class="media-body align-self-center">
+                                                    <h4 class="text-primary mb-2">{{ $count_invest }}</h4>
+                                                    <p>{{ __('users.total-invest') }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="media widget-media p-4 bg-white border">
+                                                <div class="icon rounded-circle mr-4 bg-success">
+                                                    <i class="mdi mdi-square-inc-cash text-white "></i>
+                                                </div>
+                                                <div class="media-body align-self-center">
+                                                    <h4 class="text-primary mb-2">{{ $balance }}</h4>
+                                                    <p>{{ __('users.sub-groups.balance') }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <!-- Recent Order Table -->
+                                            <div class="card card-table-border-none" id="recent-orders">
+                                                <div class="card-header justify-content-between">
+                                                    <h2>{{ __('users.sub-groups.title') }}</h2>
+                                                </div>
+                                                @if(count($sub_groups) > 0)
+                                                <div class="card-body pt-0 pb-5">
+                                                    <table class="table card-table table-responsive table-responsive-large d-block" style="width:100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>{{ __('users.sub-groups.id') }}</th>
+                                                            <th>{{ __('users.sub-groups.name') }}</th>
+                                                            <th>{{ __('users.sub-groups.code') }}</th>
+                                                            <th>{{ __('users.sub-groups.balance') }}</th>
+                                                            <th>{{ __('users.sub-groups.sub-at') }}</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($sub_groups as $sub)
+                                                        <tr>
+                                                            <td>{{ $sub->id }}</td>
+                                                            <td>
+                                                                @foreach($allGroups as $group)
+                                                                    @if ($group->id == $sub->group_id) {{ $group->group_name }} @endif
+                                                                @endforeach
+                                                            </td>
+                                                            <td>
+                                                                @foreach($allCodes as $code)
+                                                                    @if ($code->id == $sub->code_id) {{ $code->code_key }} @endif
+                                                                @endforeach
+                                                            </td>
+                                                            <td>{{ $sub->code_balance }}</td>
+                                                            <td>{{ $sub->subscribed_at }}</td>
+                                                        </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                @else
+                                                <div class="card-body pt-0 pb-5">
+                                                    <h2>{{ __('users.no-data') }}</h2>
+                                                </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <!-- Recent Order Table -->
+                                            <div class="card card-table-border-none" id="recent-orders">
+                                                <div class="card-header justify-content-between">
+                                                    <h2>{{ __('users.active-invest') }}</h2>
+                                                </div>
+                                                @if(count($activeInvest) > 0)
+                                                    <div class="card-body pt-0 pb-5">
+                                                        <table class="table card-table table-responsive table-responsive-large" style="width:100%">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>{{ __('users.sub-groups.name') }}</th>
+                                                                <th>{{ __('users.sub-groups.balance') }}</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            @foreach($activeInvest as $inv)
+                                                                <tr>
+                                                                    <td>
+                                                                        @foreach($allGroups as $group)
+                                                                            @if ($group->id == $inv->group_id) {{ $group->group_name }} @endif
+                                                                        @endforeach
+                                                                    </td>
+                                                                    <td>{{ $inv->total_balance }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                @else
+                                                    <div class="card-body pt-0 pb-5">
+                                                        <h2>{{ __('users.no-data') }}</h2>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
                                 <div class="mt-5">
                                     <form action="{{ route('update.user', $user->id) }}" method="post" enctype="multipart/form-data">
                                         @csrf
                                         <div class="form-group row mb-6">
-                                            <label for="{{ __('users.avatar') }}" class="col-sm-4 col-lg-4 col-form-label">{{ __('users.avatar') }}</label>
-                                            <div class="col-sm-8 col-lg-8">
+                                            <label for="{{ __('users.avatar') }}" class="col-sm-3 col-lg-3 col-form-label">{{ __('users.avatar') }}</label>
+                                            <a href="{{ route('delete.avatar', $user->id) }}" class="col-sm-3 col-lg-3 btn btn-danger">{{ __('users.avatar-remove') }}</a>
+                                            <div class="col-sm-8 col-lg-6">
                                                 <div class="custom-file mb-1">
                                                     <input type="file" name="user_avatar" class="custom-file-input" id="{{ __('users.avatar') }}" accept="image/*">
                                                     <label class="custom-file-label" for="{{ __('users.avatar') }}">{{ __('users.choose') }}</label>
@@ -97,36 +234,6 @@
                                                 </div>
                                             @enderror
                                         </div>
-
-{{--                                        <div class="form-group mb-4">--}}
-{{--                                            <label for="{{ __('users.old-pass') }}">{{ __('users.old-pass') }}</label>--}}
-{{--                                            <input type="password" name="old_password" class="form-control" id="{{ __('users.old-pass') }}">--}}
-{{--                                            @error('old_password')--}}
-{{--                                                <div class="alert alert-danger col-12 mt-1" role="alert">--}}
-{{--                                                    {{ $message }}--}}
-{{--                                                </div>--}}
-{{--                                            @enderror--}}
-{{--                                        </div>--}}
-
-{{--                                        <div class="form-group mb-4">--}}
-{{--                                            <label for="{{ __('users.new-pass') }}">{{ __('users.new-pass') }}</label>--}}
-{{--                                            <input type="password" name="new_password" class="form-control" id="{{ __('users.new-pass') }}">--}}
-{{--                                            @error('new_password')--}}
-{{--                                                <div class="alert alert-danger col-12 mt-1" role="alert">--}}
-{{--                                                    {{ $message }}--}}
-{{--                                                </div>--}}
-{{--                                            @enderror--}}
-{{--                                        </div>--}}
-
-{{--                                        <div class="form-group mb-4">--}}
-{{--                                            <label for="{{ __('users.confirm-pass') }}">{{ __('users.confirm-pass') }}</label>--}}
-{{--                                            <input type="password" name="confirm_password" class="form-control" id="{{ __('users.confirm-pass') }}">--}}
-{{--                                            @error('confirm_password')--}}
-{{--                                                <div class="alert alert-danger col-12 mt-1" role="alert">--}}
-{{--                                                    {{ $message }}--}}
-{{--                                                </div>--}}
-{{--                                            @enderror--}}
-{{--                                        </div>--}}
 
                                         <div class="form-group mb-4">
                                             <label for="{{ __('users.phone') }}">{{ __('users.phone') }}</label>

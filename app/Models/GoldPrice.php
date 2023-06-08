@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserBalance extends Model
+class GoldPrice extends Model
 {
     use HasFactory;
 
@@ -15,10 +15,9 @@ class UserBalance extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
-        'balance',
-        'total_get',
-        'created_at',
-        'updated_at',
+        'name',
+        'euro_price',
+        'dollar_price',
+        'dinar_price',
     ];
 }

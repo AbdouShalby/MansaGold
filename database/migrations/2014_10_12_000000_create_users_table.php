@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->string('phone', '50')->unique()->nullable();
             $table->string('token', '64')->unique()->nullable();
             $table->string('country', '2')->nullable();
+            $table->string('country_name')->nullable();
             $table->boolean('status')->default(0);
             $table->string('user_avatar')->nullable();
             $table->tinyInteger('role')->default(0);

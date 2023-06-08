@@ -10803,7 +10803,7 @@ div.copied {
 .sidebar li.active.expand > a .caret:before,
 .sidebar li.expand > a .caret:before,
 .sidebar li.expanding > a .caret:before {
-  transform: rotate(-90deg); }
+  transform: rotate(90deg); }
 
 .sidebar li.active > a .caret:before {
   opacity: 1; }

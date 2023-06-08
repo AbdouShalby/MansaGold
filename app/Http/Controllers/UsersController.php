@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Code;
+use App\Models\Group;
 use App\Models\SubscribedGroup;
 use App\Models\User;
+use App\Models\UserBalance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +15,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -94,8 +101,37 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->get()->first();
+        $allGroups = Group::all();
+        $allCodes = Code::all();
+        $count_sub_groups = SubscribedGroup::where('user_id', $id)->count();
+        $sub_groups = SubscribedGroup::where('user_id', $id)->get();
+        $count_invest = SubscribedGroup::where('user_id', $id)->sum('code_balance');
+
+        $subscribedGroups = SubscribedGroup::where('user_id', $id)->get();
+        $groups = Group::whereIn('id', $subscribedGroups->pluck('group_id'))
+            ->where('group_status', '!=', 2)
+            ->get();
+        $activeInvest = SubscribedGroup::whereIn('group_id', $groups->pluck('id'))
+            ->select('group_id', DB::raw('SUM(code_balance) as total_balance'))
+            ->groupBy('group_id')
+            ->get();
+        $totalActiveInvest = $activeInvest->sum('total_balance');
+
+        if (UserBalance::where('user_id', $id)->exists()) {
+            $balance = UserBalance::where('user_id', $id)->value('balance');
+        } else {
+            $balance = 0;
+        }
         return view('user/edit', [
-            'user' => $user
+            'user' => $user,
+            'allGroups' => $allGroups,
+            'allCodes' => $allCodes,
+            'count_sub_groups' => $count_sub_groups,
+            'sub_groups' => $sub_groups,
+            'activeInvest' => $activeInvest,
+            'totalActiveInvest' => $totalActiveInvest,
+            'count_invest' => $count_invest,
+            'balance' => $balance,
         ]);
     }
 
@@ -157,6 +193,14 @@ class UsersController extends Controller
         } else {
             return back();
         }
+    }
+
+    /**
+     * Remove user avatar
+     */
+    public function deleteAvatar(Request $request, $id) {
+        DB::table('users')->update(['user_avatar' => null]);
+        return back();
     }
 
     /**

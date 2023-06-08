@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Code;
 use App\Models\Group;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class CodesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -52,23 +55,29 @@ class CodesController extends Controller
                 ->withInput();
         }
 
-        $code = new Code();
-        $code->code_key = $request->key;
-        $code->group_id = $request->group;
-        $code->code_balance = $request->balance;
-        $code->save();
+        $groupSub = Group::where('id', $request->group)->first();
+        if ($groupSub->current_subscription += $request->balance <= $groupSub->group_max_subscription) {
+            $code = new Code();
+            $code->code_key = $request->key;
+            $code->group_id = $request->group;
+            $code->code_balance = $request->balance;
+            $code->save();
 
-        $codeData = Code::where('id', $code->id)->first();
-        $groupName = Group::where('id', $codeData->group_id)->first();
+            $codeData = Code::where('id', $code->id)->first();
+            $groupName = Group::where('id', $codeData->group_id)->first();
 
-        DB::table('logs')->insert([
-            'name' => 'code',
-            'description' => __('logs.code.inserted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance]),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+            DB::table('logs')->insert([
+                'name' => 'code',
+                'description' => __('logs.code.inserted', ['key' => $code->code_key, 'group' => $groupName->group_name, 'balance' => $code->code_balance]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        return back()->with('success', __('codes.added-success'));
+            return back()->with('success', __('codes.added-success'));
+
+        } else {
+            return back()->with('error', __('codes.max'));
+        }
     }
 
     /**

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
-use App\Models\Video;
 use Illuminate\Http\Request;
 
 class BannersController extends Controller

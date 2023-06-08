@@ -1,3 +1,11 @@
 .sidebar-fixed-offcanvas .sidebar-with-footer, .sidebar-fixed .sidebar-with-footer {
     padding-bottom: 0;
 }
+
+.login-footer .copyright {
+    padding-left: 0 !important;
+}
+
+.login-footer .copyright p {
+    text-align: center;
+}

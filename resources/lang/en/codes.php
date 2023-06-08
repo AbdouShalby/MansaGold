@@ -26,4 +26,5 @@ return [
     'added-success' => 'Code Added Successfully',
     'updated-success' => 'Code Updated Successfully',
     'deleted' => 'Code Deleted Successfully',
+    'max' => 'This step cannot be completed, as the group\'s balance will exceed the specified limit.'
 ];

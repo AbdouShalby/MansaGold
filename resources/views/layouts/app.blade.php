@@ -44,13 +44,6 @@
     <script src="{{ asset('plugins/nprogress/nprogress.js') }}"></script>
 </head>
 <body class="header-fixed sidebar-fixed sidebar-dark header-dark" id="body" dir="{{( Session::get('locale') === 'en' ? 'ltr' : 'rtl' )}}">
-    <script>
-        NProgress.configure({ showSpinner: false });
-        NProgress.start();
-    </script>
-
-
-
     <div class="wrapper">
         @if (!isset($noNav))
             @include('layouts.sidebar')
